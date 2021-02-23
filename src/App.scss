@@ -17,6 +17,14 @@
   --color-primary: lightblue;
   --color-secondary: tomato;
 }
+
+a {
+    text-decoration: none;
+    color: black;
+    &:hover{
+        color: yellowgreen;
+    }
+}
 .color-blueviolet {
   color: blueviolet !important;
 }
