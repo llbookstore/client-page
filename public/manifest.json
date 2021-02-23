@@ -1,0 +1,20 @@
+{
+  "short_name": "LLBook",
+  "name": "LLBook project",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo.png",
+      "type": "image/png",
+      "sizes": "134x134"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "lightblue",
+  "background_color": "white"
+}
