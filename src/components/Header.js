@@ -1,21 +1,36 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faCartArrowDown, faHeart } from '@fortawesome/free-solid-svg-icons'
 import './Header.scss'
 import logo from '../assets/img/logo.jpg'
-
+import { Modal, Button, Tabs, Form, Input, Checkbox } from 'antd';
+import Login from './Login'
+import Signup from './Signup'
 export default function Header() {
     const [inputSearch, setInputSearch] = useState(null);
     const [clickSearch, setClickSearch] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [activeKeyTabs, setActiveKeyTabs] = useState('1');
+    const history = useHistory();
+    const { TabPane } = Tabs;
+    const panes = [
+        { title: 'Đăng nhập', content: <Login  handleVisibleModal={setIsModalVisible} />, key: '1' },
+        { title: 'Đăng ký', content: <Signup  covertToLogin={setActiveKeyTabs}/>, key: '2' }
+    ]
+    const onFormSearchSubmit = (e) => {
+        e.preventDefault();
+        history.push(`/search?q=${inputSearch}`);
+    }
+
 
     return (
         <header className='header'>
             <div className='header__logo'>
                 <img className='header__logo-img' src={logo} alt='LLBook store' />
-                <Link to="/" className='header__logo-llbook'>LL BOOK</Link>
+                <Link to="/" className='header__logo-llbook '>LL BOOK</Link>
             </div>
-            <form className='form-group'>
+            <form className='form-group' method='get' onSubmit={onFormSearchSubmit} >
                 <input
                     className='form-field'
                     type='search'
@@ -29,9 +44,24 @@ export default function Header() {
             <div className='header__user'>
                 <Link to='/cart'><FontAwesomeIcon icon={faCartArrowDown} className='header__user-icon color-blueviolet' /></Link>
                 <Link to='/favourite'><FontAwesomeIcon icon={faHeart} className='header__user-icon' /></Link>
-                <Link to='/login' className='header__user-login'>Đăng nhập</Link>
-                <Link to='/signup'>Đăng ký</Link>
+                <span className='header__user-login' onClick={() => { setIsModalVisible(true); setActiveKeyTabs('1') }}>Đăng nhập</span>
+                <span className='header__user-sign-up' onClick={() => { setIsModalVisible(true); setActiveKeyTabs('2') }}>Đăng ký</span>
             </div>
+
+            <Modal
+                visible={isModalVisible}
+                onCancel={() => setIsModalVisible(false)}
+                footer={null}
+            >
+
+                <Tabs activeKey={activeKeyTabs} onChange={(key) => setActiveKeyTabs(key)}>
+                    {panes.map(pane => (
+                        <TabPane tab={pane.title} key={pane.key}>
+                            {pane.content}
+                        </TabPane>))
+                    }
+                </Tabs>
+            </Modal>
         </header>
     )
 }

@@ -25,6 +25,7 @@
         &-llbook {
             font-weight: 700;
             font-size: 2rem;
+            color: blueviolet;
             cursor: pointer;
             &:hover {
                 color: yellowgreen;
@@ -39,8 +40,11 @@
             font-size: 1.5rem;
             color: var(--color-secondary);
         }
-        &-login {
+        &-login,&-sign-up {
             cursor: pointer;
+            &:hover {
+                color: yellowgreen;
+            }
         }
         &-login::after {
             content: " | ";
