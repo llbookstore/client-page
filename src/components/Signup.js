@@ -92,7 +92,7 @@ export default function Signup(props) {
                     },
                 ]}
             >
-                <Input />
+                <Input autoFocus/>
             </Form.Item>
 
             <Form.Item

@@ -3,7 +3,7 @@ const initialState = [];
 const productReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_ALL_PRODUCTS:
-            return state;
+            return [...action.data];
         default:
             return state;
     }

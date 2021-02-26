@@ -1,7 +1,11 @@
 import React from 'react'
 import { Form, Input, Button, message } from 'antd'
-import { FormInstance } from 'antd/lib/form';
+import { connect } from 'react-redux'
 import axios from 'axios'
+import jwt from 'jsonwebtoken'
+
+import * as actions from '../actions'
+
 const layout = {
     labelCol: {
         span: 8,
@@ -16,9 +20,9 @@ const tailLayout = {
         span: 16,
     },
 };
-export default function Login(props) {
+const Login = (props) => {
     const [form] = Form.useForm();
-    const { handleVisibleModal } = props;
+    const { handleVisibleModal, onGetUserData } = props;
     const onFinish = async (values) => {
         try {
             const { username, password } = values;
@@ -27,9 +31,16 @@ export default function Login(props) {
             if (status === 0) message.error('Tên tài khoản hoặc mật khẩu không chính xác.');
             if (data.token) {
                 message.success('Đăng nhập thành công!');
+                //get user data
+                const { userId } = jwt.decode(data.token);
+                const userData = await axios.get(`/account/${userId}`);
+                sessionStorage.setItem('token', JSON.stringify(data.token));
+                sessionStorage.setItem('userData', JSON.stringify(userData.data.data));
+                onGetUserData(userData.data.data);
+                //remove fields
                 form.resetFields();
                 axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
-                 handleVisibleModal(false);
+                handleVisibleModal(false);
             }
         } catch (err) {
             console.log(err);
@@ -58,7 +69,7 @@ export default function Login(props) {
                     }
                 ]}
             >
-                <Input />
+                <Input autoFocus/>
             </Form.Item>
 
             <Form.Item
@@ -91,3 +102,13 @@ export default function Login(props) {
         </Form>
     )
 }
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onGetUserData : (user) => {
+            dispatch(actions.getUserInfo(user));
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Login);

@@ -4,10 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faCartArrowDown, faHeart } from '@fortawesome/free-solid-svg-icons'
 import './Header.scss'
 import logo from '../assets/img/logo.jpg'
-import { Modal, Button, Tabs, Form, Input, Checkbox } from 'antd';
+//antd
+import { Modal, Tabs, Menu, Dropdown } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+//redux
+import { connect } from 'react-redux';
+import * as actions from '../actions'
+//component
 import Login from './Login'
 import Signup from './Signup'
-export default function Header() {
+const Header = (props) => {
+    const { userInfo, onLogout } = props;
     const [inputSearch, setInputSearch] = useState(null);
     const [clickSearch, setClickSearch] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -15,14 +22,27 @@ export default function Header() {
     const history = useHistory();
     const { TabPane } = Tabs;
     const panes = [
-        { title: 'Đăng nhập', content: <Login  handleVisibleModal={setIsModalVisible} />, key: '1' },
-        { title: 'Đăng ký', content: <Signup  covertToLogin={setActiveKeyTabs}/>, key: '2' }
+        { title: 'Đăng nhập', content: <Login handleVisibleModal={setIsModalVisible} />, key: '1' },
+        { title: 'Đăng ký', content: <Signup covertToLogin={setActiveKeyTabs} />, key: '2' }
     ]
+    const onLogoutClick = () => {
+        onLogout();
+        sessionStorage.setItem('userData', 'null');
+    }
+    const menu = (
+        <Menu>
+            <Menu.Item>
+                <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
+                    Chỉnh sửa thông tin
+            </a>
+            </Menu.Item>
+            <Menu.Item danger onClick={onLogoutClick}>Đăng xuất</Menu.Item>
+        </Menu>
+    );
     const onFormSearchSubmit = (e) => {
         e.preventDefault();
         history.push(`/search?q=${inputSearch}`);
     }
-
 
     return (
         <header className='header'>
@@ -44,8 +64,21 @@ export default function Header() {
             <div className='header__user'>
                 <Link to='/cart'><FontAwesomeIcon icon={faCartArrowDown} className='header__user-icon color-blueviolet' /></Link>
                 <Link to='/favourite'><FontAwesomeIcon icon={faHeart} className='header__user-icon' /></Link>
-                <span className='header__user-login' onClick={() => { setIsModalVisible(true); setActiveKeyTabs('1') }}>Đăng nhập</span>
-                <span className='header__user-sign-up' onClick={() => { setIsModalVisible(true); setActiveKeyTabs('2') }}>Đăng ký</span>
+                {
+                    (Object.keys(userInfo).length === 0 ) ?
+                        (<>
+                            <span className='header__user-login' onClick={() => { setIsModalVisible(true); setActiveKeyTabs('1') }}>Đăng nhập</span>
+                            <span className='header__user-sign-up' onClick={() => { setIsModalVisible(true); setActiveKeyTabs('2') }}>Đăng ký</span>
+                        </>)
+                        :
+                        (
+                            <Dropdown overlay={menu}>
+                                <span className='header__user-username ant-dropdown-link' onClick={() => { setIsModalVisible(true); setActiveKeyTabs('2') }}>
+                                    {userInfo.account_name} <DownOutlined />
+                                </span>
+                            </Dropdown>
+                        )
+                }
             </div>
 
             <Modal
@@ -65,3 +98,13 @@ export default function Header() {
         </header>
     )
 }
+const mapStateToProps = (state) => {
+    const { user } = state;
+    return { userInfo: user };
+}
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onLogout: () => dispatch(actions.logout())
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
