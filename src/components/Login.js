@@ -22,7 +22,7 @@ const tailLayout = {
 };
 const Login = (props) => {
     const [form] = Form.useForm();
-    const { handleVisibleModal, onGetUserData } = props;
+    const { handleVisibleModal, onGetUserData, onLogin } = props;
     const onFinish = async (values) => {
         try {
             const { username, password } = values;
@@ -31,10 +31,11 @@ const Login = (props) => {
             if (status === 0) message.error('Tên tài khoản hoặc mật khẩu không chính xác.');
             if (data.token) {
                 message.success('Đăng nhập thành công!');
+                onLogin(true);
                 //get user data
                 const { userId } = jwt.decode(data.token);
                 const userData = await axios.get(`/account/${userId}`);
-                sessionStorage.setItem('token', JSON.stringify(data.token));
+                //sessionStorage.setItem('token', JSON.stringify(data.token));
                 sessionStorage.setItem('userData', JSON.stringify(userData.data.data));
                 onGetUserData(userData.data.data);
                 //remove fields

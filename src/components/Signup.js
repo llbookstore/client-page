@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import {
     Form,
@@ -10,7 +10,8 @@ import {
     DatePicker,
 } from 'antd';
 import axios from 'axios';
-
+import { connect } from 'react-redux';
+import * as actions from '../actions/index'
 const { Option } = Select;
 
 const formItemLayout = {
@@ -43,29 +44,52 @@ const tailFormItemLayout = {
         },
     },
 };
-export default function Signup(props) {
-    const { covertToLogin } = props;
+const Signup = (props) => {
+    const { covertToLogin, isUpdateAccount, title, userInfo, onUpdateUser } = props;
     const [form] = Form.useForm();
+
+    useEffect(() => {
+
+        const userValue = {
+            username: userInfo.account_name,
+            fullname: userInfo.full_name,
+            email: userInfo.email,
+            gender: userInfo.gender ? userInfo.gender.toString() : undefined,
+            phone: userInfo.phone,
+            birth_date: moment(userInfo.birth_date)
+        }
+        form.setFieldsValue(userValue);
+    }, [userInfo])
 
     const onFinish = async (values) => {
         let { email, fullname, gender, username, password, phone, birth_date } = values;
         birth_date = moment(birth_date, 'DD/MM/YYYY').format('DD/MM/YYYY');
-        console.log(birth_date)
-        const data = { email, fullname, gender, username, password, phone, birth_date };
         try {
-            const res = await axios.post('/account', data);
-            console.log('res', res);
-            const { code, msg, status } = res.data;
-            if(code === '410') message.warning(msg);
-            if(status === 1) {
-                message.success('Đăng ký tài khoản thành công!');
-                message.info('Mời bạn đăng nhập')
-                form.resetFields();
-                covertToLogin('1');//change tabs pain (key 1)
+            if (!isUpdateAccount) {
+                const data = { email, fullname, gender, username, password, phone, birth_date };
+                const res = await axios.post('/account', data);
+                console.log('res', res);
+                const { code, msg, status } = res.data;
+                if (code === '410') message.warning(msg);
+                if (status === 1) {
+                    message.success(`${title} tài khoản thành công!`);
+                    message.info('Mời bạn đăng nhập')
+                    form.resetFields();
+                    covertToLogin('1');//change tabs pain (key 1)
+                }
+            } else {
+                const data = { email, fullname, gender, phone, birth_date };
+                const { account_id } = userInfo;
+                const res = await axios.put(`/account/${account_id}`, data);
+                console.log('res-update', res);
+                const { code, msg, status } = res.data;
+                if (status === 1) {
+                    message.success(`${title} tài khoản thành công!`);
+                }
             }
         } catch (err) {
             console.log(err);
-            message.error('Có lỗi! Hiện tại không thể đăng ký!');
+            message.error(`Có lỗi! Hiện tại không thể ${title}!`);
         }
     };
 
@@ -92,7 +116,8 @@ export default function Signup(props) {
                     },
                 ]}
             >
-                <Input autoFocus/>
+
+                <Input autoFocus disabled={isUpdateAccount} />
             </Form.Item>
 
             <Form.Item
@@ -112,50 +137,52 @@ export default function Signup(props) {
             >
                 <Input />
             </Form.Item>
-
-            <Form.Item
-                name="password"
-                label="Mật khẩu"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Vui lòng nhập mật khẩu!',
-                    },
-                    {
-                        min: 6,
-                        max: 50,
-                        message: 'Mật khẩu từ 6-50 ký tự.'
-                    }
-                ]}
-                hasFeedback
-            >
-                <Input.Password />
-            </Form.Item>
-
-            <Form.Item
-                name="confirm"
-                label="Xác nhận mật khẩu"
-                dependencies={['password']}
-                hasFeedback
-                rules={[
-                    {
-                        required: true,
-                        message: 'Vui lòng nhập lại mật khẩu!',
-                    },
-                    ({ getFieldValue }) => ({
-                        validator(_, value) {
-                            if (!value || getFieldValue('password') === value) {
-                                return Promise.resolve();
-                            }
-
-                            return Promise.reject('Mật khẩu không khớp!');
+            {
+                !isUpdateAccount &&
+                <Form.Item
+                    name="password"
+                    label="Mật khẩu"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng nhập mật khẩu!',
                         },
-                    }),
-                ]}
-            >
-                <Input.Password />
-            </Form.Item>
+                        {
+                            min: 6,
+                            max: 50,
+                            message: 'Mật khẩu từ 6-50 ký tự.'
+                        }
+                    ]}
+                    hasFeedback
+                >
+                    <Input.Password />
+                </Form.Item>
+            }
+            { !isUpdateAccount &&
+                <Form.Item
+                    name="confirm"
+                    label="Xác nhận mật khẩu"
+                    dependencies={['password']}
+                    hasFeedback
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng nhập lại mật khẩu!',
+                        },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('password') === value) {
+                                    return Promise.resolve();
+                                }
 
+                                return Promise.reject('Mật khẩu không khớp!');
+                            },
+                        }),
+                    ]}
+                >
+                    <Input.Password />
+                </Form.Item>
+            }
             <Form.Item
                 name="email"
                 label="E-mail"
@@ -240,9 +267,21 @@ export default function Signup(props) {
             </Form.Item> */}
             <Form.Item {...tailFormItemLayout}>
                 <Button type="primary" htmlType="submit">
-                    Đăng ký
-              </Button>
+                    {title}
+                </Button>
             </Form.Item>
         </Form>
     )
 }
+
+const mapStateToProps = (state) => {
+    return { userInfo: state.user }
+}
+const mapDispatchToProps = (dispatch, state) => {
+    return {
+        onUpdateUser : (user) => {
+            dispatch(actions.updateAccount(user));
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

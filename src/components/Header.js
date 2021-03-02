@@ -15,26 +15,26 @@ import Login from './Login'
 import Signup from './Signup'
 const Header = (props) => {
     const { userInfo, onLogout } = props;
-    const [inputSearch, setInputSearch] = useState(null);
+    const [inputSearch, setInputSearch] = useState('');
     const [clickSearch, setClickSearch] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [activeKeyTabs, setActiveKeyTabs] = useState('1');
+    const [isLogin, setIsLogin] = useState(false);
     const history = useHistory();
     const { TabPane } = Tabs;
     const panes = [
-        { title: 'Đăng nhập', content: <Login handleVisibleModal={setIsModalVisible} />, key: '1' },
-        { title: 'Đăng ký', content: <Signup covertToLogin={setActiveKeyTabs} />, key: '2' }
+        { title: 'Đăng nhập', content: <Login handleVisibleModal={setIsModalVisible} onLogin={setIsLogin} />, key: '1' },
+        { title: 'Đăng ký', content: <Signup covertToLogin={setActiveKeyTabs} title={'Đăng ký'} />, key: '2' }
     ]
     const onLogoutClick = () => {
+        setIsLogin(false);
         onLogout();
         sessionStorage.setItem('userData', 'null');
     }
     const menu = (
         <Menu>
-            <Menu.Item>
-                <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-                    Chỉnh sửa thông tin
-            </a>
+            <Menu.Item onClick={() => { setIsModalVisible(true); setIsLogin(true) }}>
+                Chỉnh sửa thông tin
             </Menu.Item>
             <Menu.Item danger onClick={onLogoutClick}>Đăng xuất</Menu.Item>
         </Menu>
@@ -65,7 +65,7 @@ const Header = (props) => {
                 <Link to='/cart'><FontAwesomeIcon icon={faCartArrowDown} className='header__user-icon color-blueviolet' /></Link>
                 <Link to='/favourite'><FontAwesomeIcon icon={faHeart} className='header__user-icon' /></Link>
                 {
-                    (Object.keys(userInfo).length === 0 ) ?
+                    (Object.keys(userInfo).length === 0) ?
                         (<>
                             <span className='header__user-login' onClick={() => { setIsModalVisible(true); setActiveKeyTabs('1') }}>Đăng nhập</span>
                             <span className='header__user-sign-up' onClick={() => { setIsModalVisible(true); setActiveKeyTabs('2') }}>Đăng ký</span>
@@ -73,7 +73,7 @@ const Header = (props) => {
                         :
                         (
                             <Dropdown overlay={menu}>
-                                <span className='header__user-username ant-dropdown-link' onClick={() => { setIsModalVisible(true); setActiveKeyTabs('2') }}>
+                                <span className='header__user-username ant-dropdown-link'>
                                     {userInfo.account_name} <DownOutlined />
                                 </span>
                             </Dropdown>
@@ -82,18 +82,22 @@ const Header = (props) => {
             </div>
 
             <Modal
+                title={isLogin ? 'Cập nhật tài khoản' : ''}
                 visible={isModalVisible}
                 onCancel={() => setIsModalVisible(false)}
                 footer={null}
             >
+                {
+                    !isLogin ? <Tabs activeKey={activeKeyTabs} onChange={(key) => setActiveKeyTabs(key)}>
+                            {panes.map(pane => (
+                                <TabPane tab={pane.title} key={pane.key}>
+                                    {pane.content}
+                                </TabPane>))
+                            }
+                        </Tabs>
+                        : <Signup title={'Cập nhật'} isUpdateAccount={true}/>
 
-                <Tabs activeKey={activeKeyTabs} onChange={(key) => setActiveKeyTabs(key)}>
-                    {panes.map(pane => (
-                        <TabPane tab={pane.title} key={pane.key}>
-                            {pane.content}
-                        </TabPane>))
-                    }
-                </Tabs>
+                }
             </Modal>
         </header>
     )
