@@ -5,6 +5,12 @@ import {
     UPDATE_ACCOUNT
 } from '../constants/ActionTypes'
 
+export const getAllProducts = (products) => {
+    return {
+        type: GET_ALL_PRODUCTS,
+        data: products
+    }
+}
 export const getUserInfo = (user) => {
     return {
         type: GET_USER_INFO,
