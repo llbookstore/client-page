@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import { Link, useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faCartArrowDown, faHeart } from '@fortawesome/free-solid-svg-icons'
@@ -14,7 +15,7 @@ import * as actions from '../actions'
 import Login from './Login'
 import Signup from './Signup'
 const Header = (props) => {
-    const { userInfo, onLogout } = props;
+    const { userInfo, onLogout, onGetProducts } = props;
     const [inputSearch, setInputSearch] = useState('');
     const [clickSearch, setClickSearch] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -43,7 +44,14 @@ const Header = (props) => {
         e.preventDefault();
         history.push(`/search?q=${inputSearch}`);
     }
-
+    useEffect(async () => {
+        try {
+            const res = await axios.get('/books');
+            onGetProducts(res.data.data.rows);
+        } catch (err) {
+            console.log(err);
+        }
+    }, [])
     return (
         <header className='header'>
             <div className='header__logo'>
@@ -103,12 +111,13 @@ const Header = (props) => {
     )
 }
 const mapStateToProps = (state) => {
-    const { user } = state;
-    return { userInfo: user };
+    const { user,products } = state;
+    return { userInfo: user, products };
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onLogout: () => dispatch(actions.logout())
+        onLogout: () => dispatch(actions.logout()),
+        onGetProducts: (products) => dispatch(actions.getAllProducts(products))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

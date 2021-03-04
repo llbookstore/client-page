@@ -81,8 +81,8 @@ const Signup = (props) => {
                 const data = { email, fullname, gender, phone, birth_date };
                 const { account_id } = userInfo;
                 const res = await axios.put(`/account/${account_id}`, data);
-                console.log('res-update', res);
-                const { code, msg, status } = res.data;
+                const { status } = res.data;
+                onUpdateUser(data);
                 if (status === 1) {
                     message.success(`${title} tài khoản thành công!`);
                 }
