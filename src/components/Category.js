@@ -13,15 +13,16 @@ function handleClick(e) {
 export default function Category() {
     const [category, setCategory] = useState([]);
     const history = useHistory();
-    useEffect(() => {
-        async function getProducts(){
-            try {
-                const res = await axios.get('/category');
-                setCategory(res.data.data);
-            } catch (err) {
-                console.log(err);
-            }
+    async function getCategories() {
+        try {
+            const res = await axios.get('/category');
+            setCategory(res.data.data);
+        } catch (err) {
+            console.log(err);
         }
+    }
+    useEffect(() => {
+        getCategories();
     }, []);
 
     const onCateClick = (e) => {
@@ -45,15 +46,6 @@ export default function Category() {
                         </SubMenu>
                     )
             }
-
-            {/* <SubMenu key="sub1" title="Danh mục" className="category-main__sub">
-                <Menu.Item key="5" >Option 5</Menu.Item>
-                <Menu.Item key="6">Option 6</Menu.Item>
-            </SubMenu>
-            <SubMenu key="sub2" title="Danh mục">
-                <Menu.Item key="5">Option 5</Menu.Item>
-                <Menu.Item key="6">Option 6</Menu.Item>
-            </SubMenu> */}
         </Menu>
     )
 }
