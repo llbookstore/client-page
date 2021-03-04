@@ -1,0 +1,10 @@
+.category-main {
+    width: 256px;
+    background-color: yellowgreen;
+    color:black;
+    &__sub {
+        &:hover{
+            background-color: tomato;
+        }
+    }
+}
