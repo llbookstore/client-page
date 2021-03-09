@@ -2,7 +2,8 @@ import {
     GET_ALL_PRODUCTS,
     GET_USER_INFO,
     LOG_OUT,
-    UPDATE_ACCOUNT
+    UPDATE_ACCOUNT,
+    GET_CATEGORY
 } from '../constants/ActionTypes'
 
 export const getAllProducts = (products) => {
@@ -28,5 +29,12 @@ export const updateAccount = (user) => {
     return {
         type: UPDATE_ACCOUNT,
         data: user
+    }
+}
+//category
+export const getCategories = (categories) => {
+    return {
+        type: GET_CATEGORY,
+        data: categories
     }
 }

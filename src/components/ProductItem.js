@@ -11,7 +11,7 @@ const ProductItem = (props) => {
     const { cover_image, name, price, book_id, sale } = product;
 
     const onCardClick = () => {
-        history.push(`/product/${book_id}`)
+        history.push(`/book/${book_id}`)
     }
     const Description = (
         <>

@@ -4,13 +4,14 @@ import storage from 'redux-persist/lib/storage'
 
 import products from './products'
 import user from './user'
+import category from './category'
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['products']
+    whitelist: ['products', 'category']
 }
 const rootReducer = combineReducers({
-    products, user
+    products, user, category
 })
 export default persistReducer(persistConfig, rootReducer);

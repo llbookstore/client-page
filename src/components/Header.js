@@ -15,7 +15,7 @@ import * as actions from '../actions'
 import Login from './Login'
 import Signup from './Signup'
 const Header = (props) => {
-    const { userInfo, onLogout, onGetProducts } = props;
+    const { userInfo, onLogout, onGetProducts, onGetCategories } = props;
     const [inputSearch, setInputSearch] = useState('');
     const [clickSearch, setClickSearch] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -47,12 +47,22 @@ const Header = (props) => {
 
     useEffect(() => {
         getBooks();
+        getCategories();
     }, [])
 
     async function getBooks() {
         try {
             const res = await axios.get('/books?row_per_page=10000000');
             onGetProducts(res.data.data.rows);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async function getCategories() {
+        try {
+            const res = await axios.get('/category?active=1');
+            onGetCategories(res.data.data);
         } catch (err) {
             console.log(err);
         }
@@ -123,7 +133,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, props) => {
     return {
         onLogout: () => dispatch(actions.logout()),
-        onGetProducts: (products) => dispatch(actions.getAllProducts(products))
+        onGetProducts: (products) => dispatch(actions.getAllProducts(products)),
+        onGetCategories: (categories) => dispatch(actions.getCategories(categories))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
