@@ -6,16 +6,12 @@ import axios from 'axios';
 
 const { SubMenu } = Menu;
 
-function handleClick(e) {
-    console.log('click', e);
-}
-
 export default function Category() {
     const [category, setCategory] = useState([]);
     const history = useHistory();
     async function getCategories() {
         try {
-            const res = await axios.get('/category');
+            const res = await axios.get('/category?active=1');
             setCategory(res.data.data);
         } catch (err) {
             console.log(err);
@@ -30,7 +26,8 @@ export default function Category() {
         history.push(`/category/${key}`);
     }
     return (
-        <Menu className="category-main" mode="vertical" title='Danh mục' onClick={onCateClick}>
+        <Menu className="category-main" mode="vertical" title='Danh mục'>
+            <Menu.Item  className='category-title-name'>Danh mục sách</Menu.Item>
             {
                 category
                     .filter(item => item.group_id === -1)
@@ -40,7 +37,7 @@ export default function Category() {
                                 category
                                     .filter(subItem => subItem.group_id === item.category_id)
                                     .map(subItem =>
-                                        <Menu.Item key={`${subItem.category_id}`} className="category-main__sub">{subItem.name}</Menu.Item>
+                                        <Menu.Item onClick={onCateClick} key={`${subItem.category_id}`} className="category-main__sub">{subItem.name}</Menu.Item>
                                     )
                             }
                         </SubMenu>

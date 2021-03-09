@@ -68,7 +68,6 @@ const Signup = (props) => {
             if (!isUpdateAccount) {
                 const data = { email, fullname, gender, username, password, phone, birth_date };
                 const res = await axios.post('/account', data);
-                console.log('res', res);
                 const { code, msg, status } = res.data;
                 if (code === '410') message.warning(msg);
                 if (status === 1) {

@@ -44,14 +44,20 @@ const Header = (props) => {
         e.preventDefault();
         history.push(`/search?q=${inputSearch}`);
     }
-    useEffect(async () => {
+
+    useEffect(() => {
+        getBooks();
+    }, [])
+
+    async function getBooks() {
         try {
-            const res = await axios.get('/books');
+            const res = await axios.get('/books?row_per_page=10000000');
             onGetProducts(res.data.data.rows);
         } catch (err) {
             console.log(err);
         }
-    }, [])
+    }
+
     return (
         <header className='header'>
             <div className='header__logo'>
@@ -97,13 +103,13 @@ const Header = (props) => {
             >
                 {
                     !isLogin ? <Tabs activeKey={activeKeyTabs} onChange={(key) => setActiveKeyTabs(key)}>
-                            {panes.map(pane => (
-                                <TabPane tab={pane.title} key={pane.key}>
-                                    {pane.content}
-                                </TabPane>))
-                            }
-                        </Tabs>
-                        : <Signup title={'Cập nhật'} isUpdateAccount={true}/>
+                        {panes.map(pane => (
+                            <TabPane tab={pane.title} key={pane.key}>
+                                {pane.content}
+                            </TabPane>))
+                        }
+                    </Tabs>
+                        : <Signup title={'Cập nhật'} isUpdateAccount={true} />
 
                 }
             </Modal>
@@ -111,7 +117,7 @@ const Header = (props) => {
     )
 }
 const mapStateToProps = (state) => {
-    const { user,products } = state;
+    const { user, products } = state;
     return { userInfo: user, products };
 }
 const mapDispatchToProps = (dispatch, props) => {

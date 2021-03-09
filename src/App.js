@@ -4,8 +4,9 @@ import axios from 'axios'
 import Header from './components/Header';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import routes from './routes';
+import { API_HOST } from './constants/config'
 function App() {
-  axios.defaults.baseURL = 'http://localhost:3326';
+  axios.defaults.baseURL = API_HOST;
   return (
     <Router>
       <div className="App">

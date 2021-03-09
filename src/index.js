@@ -5,7 +5,7 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './createStore';
-console.log(store.getState())
+
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>

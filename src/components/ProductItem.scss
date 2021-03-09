@@ -1,0 +1,34 @@
+.card-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    &:hover {
+        color: yellowgreen
+    }
+}
+
+.card-item {
+    width: 240px;
+    max-width: 360px;
+    padding-top: 20px;
+    &__price{
+        color: var(--color-secondary);
+        font-weight: 600;
+        font-size: large;
+        &::after{
+            content: 'đ ';
+            color: var(--color-secondary)
+        }
+    }
+    &__sale-price {
+        font-size: larger;
+        color: grey;
+        text-decoration: line-through;
+        padding-left: 3px;
+        &::after {
+            content: 'đ';
+            color: grey;
+        }
+    }
+}
