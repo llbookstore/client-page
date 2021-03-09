@@ -16,6 +16,7 @@
         color: var(--color-secondary);
         font-weight: 600;
         font-size: large;
+        padding-left: 3px;
         &::after{
             content: 'đ ';
             color: var(--color-secondary)
@@ -25,7 +26,6 @@
         font-size: larger;
         color: grey;
         text-decoration: line-through;
-        padding-left: 3px;
         &::after {
             content: 'đ';
             color: grey;
