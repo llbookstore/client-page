@@ -1,0 +1,55 @@
+.product-detail {
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+    padding: 20px;
+
+    &__button-like {
+        display: flex;
+        padding: 7px;
+        width: fit-content;
+        border-radius: 45%;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.5);
+        background-color: lightgrey;
+        border: 1px solid grey;
+        &:hover,
+        &--liked {
+            border: 1px solid green;
+            background-color: lightblue;
+            color: tomato;
+        }
+    }
+
+    &__like {
+        line-height: 32px;
+        font-weight: bold;
+
+    }
+
+    &__heart {
+        font-size: 32px;
+        cursor: pointer;
+        padding-right: 10px;
+    }
+
+    &__image {
+        padding-right: 50px;
+        flex: 30%;
+    }
+
+    &__content {
+        flex: 70%;
+        &--bold {
+            font-weight: bold;
+        }
+    }
+
+    &__description {
+        font-size: 18px;
+    }
+
+    &__specific {
+        display: flex;
+    }
+}

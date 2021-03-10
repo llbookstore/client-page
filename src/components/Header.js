@@ -52,7 +52,7 @@ const Header = (props) => {
 
     async function getBooks() {
         try {
-            const res = await axios.get('/books?row_per_page=10000000');
+            const res = await axios.get('/books?row_per_page=10000000&active=1');
             onGetProducts(res.data.data.rows);
         } catch (err) {
             console.log(err);

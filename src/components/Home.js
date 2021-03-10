@@ -10,7 +10,7 @@ const Home = (props) => {
         <>
             <Category category={category} />
             {
-                listCategoryFirst.map(cat => <ProductList category_id={cat.category_id} category_name={cat.name} />)
+                listCategoryFirst.map(cat => <ProductList category_id={cat.category_id} category_name={cat.name} key={cat.category_id}/>)
             }
 
         </>

@@ -9,7 +9,7 @@ const ProductList = (props) => {
     const categoryLink = `/category/${category_id}`;
     const listProduct = products.filter(
         item => !!item.category_details
-            .find(i => i.category_id == category_id));
+            .find(i => i.category_id === category_id));
     listProduct.length = 8;
     console.log(listProduct)
     const ShowMore = (

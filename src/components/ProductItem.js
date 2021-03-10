@@ -16,7 +16,7 @@ const ProductItem = (props) => {
     const Description = (
         <>
             {
-                (sale && sale.percent) ?
+                (sale && sale.percent && sale.active===1) ?
                     <>
                         <Tag color="#f50">{sale.percent}%</Tag>
                         <NumberFormat value={price} displayType={'text'} className='card-item__sale-price' thousandSeparator={true} />
