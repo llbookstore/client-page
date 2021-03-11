@@ -1,6 +1,7 @@
 import Home from './components/Home';
 import ProductDetail from './components/ProductDetail';
 import Favourtites from './components/Favourtites';
+import SearchProduct from './components/SearchProduct';
 const router = [
     {
         path: '/',
@@ -16,6 +17,11 @@ const router = [
         path: '/favourite',
         exact: true, 
         component: Favourtites
+    },
+    {
+        path: '/search',
+        exact: true, 
+        component: SearchProduct
     }
 ]
 
