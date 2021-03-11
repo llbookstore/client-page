@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import { useParams, useHistory, } from 'react-router-dom';
-import { Result, Button, Typography, Collapse, Row, Col, message } from 'antd';
-import { HeartFilled } from '@ant-design/icons';
+import { Result, Button, Typography, Collapse, Row, Col, message, InputNumber, Tag } from 'antd';
+import { HeartFilled, ShoppingCartOutlined } from '@ant-design/icons';
 import NumberFormat from 'react-number-format';
 import { decode } from 'html-entities';
 import parse from 'html-react-parser';
@@ -22,8 +22,9 @@ const ProductDetail = (props) => {
     const productData = products.find(item => item.book_id == id);
     //user
     const { favourites = [] } = user;
-    console.log('user', user, !!user);
     const isLikeBook = favourites.find(item => item.book_id == id);
+    //state
+    const [amount, setAmount] = useState(1);
     const BookSpecific = () => {
         return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} >
             <Col className="gutter-row" span={12} >
@@ -113,9 +114,18 @@ const ProductDetail = (props) => {
                         {productData.book_translator && <p>Người dịch: <span className='product-detail__content--bold'>{productData.book_translator}</span></p>}
                         {productData.publisher && <p>Nhà xuất bản: <span className='product-detail__content--bold'>{productData.publisher}</span></p>}
                         {productData.publishing.name && <p>Nhà phát hành: <span className='product-detail__content--bold'>{productData.publishing.name}</span></p>}
-                        
-                        <NumberFormat value={productData.price} displayType={'text'} className='card-item__sale-price' thousandSeparator={true} />
-                        <NumberFormat value={productData.price - productData.price * (productData.sale.percent / 100)} displayType={'text'} className='card-item__price' thousandSeparator={true} />
+                        {
+                            productData.sale && productData.sale.active === 1 ?
+                                <>
+                                    <p>Giá bìa: <NumberFormat value={` ${productData.price}`} displayType={'text'} className='card-item__sale-price' thousandSeparator={true} />
+                                    <Tag color="#87d068" style={{marginLeft: '20px'}}>-{productData.sale.percent}%</Tag>
+                                    </p>
+                                    <p>Giá bán: <NumberFormat value={` ${productData.price - productData.price * (productData.sale.percent / 100)}`} displayType={'text'} className='card-item__price' thousandSeparator={true} />
+                                    </p>
+                                </>
+                                : <p>Giá bìa: <NumberFormat value={` ${productData.price}`} displayType={'text'} className='card-item__price ' thousandSeparator={true} />
+                                </p>
+                        }
                         <div style={{ display: 'flex' }}>
                             <div
                                 className={!isLikeBook ? 'product-detail__button-like' : 'product-detail__button-like product-detail__button-like--liked'}
@@ -125,7 +135,12 @@ const ProductDetail = (props) => {
                                 <HeartFilled title='Thích' className='product-detail__heart' />
                                 <span className='product-detail__like'>THÍCH</span>
                             </div>
+                            <Button type="primary" className='product-detail__buy-now'>Mua ngay</Button>
                         </div>
+                        <strong>Số lượng:</strong> <InputNumber min={1} value={amount} onChange={(num) => setAmount(num)} />
+                        <Button type="primary" icon={<ShoppingCartOutlined />} className='product-detail__add-cart'>
+                            Thêm vào giỏ hàng
+                            </Button>
                     </div>
                 </div>
                 <Collapse defaultActiveKey={['1']} >

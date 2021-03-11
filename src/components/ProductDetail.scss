@@ -4,15 +4,31 @@
     flex-wrap: wrap;
     padding: 20px;
 
+    &__add-cart {
+        margin-left: 20px;
+        background-color: var(--color-blueviolet);
+
+        &:hover {
+            background-color: tomato;
+        }
+    }
+
+    &__buy-now {
+        margin-left: 20px;
+        height: 48px;
+    }
+
     &__button-like {
         display: flex;
         padding: 7px;
         width: fit-content;
         border-radius: 45%;
+        margin-bottom: 20px;
         cursor: pointer;
         color: rgba(0, 0, 0, 0.5);
         background-color: lightgrey;
         border: 1px solid grey;
+
         &:hover,
         &--liked {
             border: 1px solid green;
@@ -40,6 +56,7 @@
 
     &__content {
         flex: 70%;
+
         &--bold {
             font-weight: bold;
         }
