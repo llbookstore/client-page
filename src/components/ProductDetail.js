@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
-import { useParams, useHistory, } from 'react-router-dom';
-import { Result, Button, Typography, Collapse, Row, Col, message, InputNumber, Tag } from 'antd';
+import { useParams } from 'react-router-dom';
+import { Button, Typography, Collapse, Row, Col, message, InputNumber, Tag } from 'antd';
 import { HeartFilled, ShoppingCartOutlined } from '@ant-design/icons';
 import NumberFormat from 'react-number-format';
 import { decode } from 'html-entities';
@@ -10,14 +10,14 @@ import * as actions from '../actions/index';
 import axios from 'axios';
 import './ProductDetail.scss';
 import { API_HOST } from '../constants/config';
-import * as commonFunc from '../ultils/common'
+import * as commonFunc from '../ultils/common';
+import UnFindPage from './UnFindPage';
 const { Title } = Typography;
 const { Panel } = Collapse;
 
 const ProductDetail = (props) => {
     const { products, user, onAddBookFavourite, onRemoveBookFavourte } = props;
     const { id } = useParams();
-    const history = useHistory();
     //product
     const productData = products.find(item => item.book_id == id);
     //user
@@ -96,12 +96,7 @@ const ProductDetail = (props) => {
     }
     return (
         !productData ?
-            <Result
-                status="404"
-                title="404"
-                subTitle="Rất tiếc, trang web này không tồn tại!"
-                extra={<Button type="primary" onClick={() => history.push('/')}>Trở về trang chủ</Button>}
-            />
+            <UnFindPage />
             :
             <>
                 <div className='product-detail'>

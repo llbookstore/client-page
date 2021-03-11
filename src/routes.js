@@ -2,6 +2,7 @@ import Home from './components/Home';
 import ProductDetail from './components/ProductDetail';
 import Favourtites from './components/Favourtites';
 import SearchProduct from './components/SearchProduct';
+import CategoryDetail from './components/CategoryDetail';
 const router = [
     {
         path: '/',
@@ -22,7 +23,12 @@ const router = [
         path: '/search',
         exact: true, 
         component: SearchProduct
-    }
+    },
+    {
+        path: '/category/:id',
+        exact: true, 
+        component: CategoryDetail
+    },
 ]
 
 export default router;
