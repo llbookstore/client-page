@@ -65,10 +65,11 @@ const Signup = (props) => {
         let { email, fullname, gender, username, password, phone, birth_date } = values;
         birth_date = moment(birth_date, 'DD/MM/YYYY').format('DD/MM/YYYY');
         try {
-            if (!isUpdateAccount) {
+            if (!isUpdateAccount) { //đăng ký
                 const data = { email, fullname, gender, username, password, phone, birth_date };
                 const res = await axios.post('/account', data);
                 const { code, msg, status } = res.data;
+                console.log('res signup', res);
                 if (code === '410') message.warning(msg);
                 if (status === 1) {
                     message.success(`${title} tài khoản thành công!`);
@@ -113,6 +114,11 @@ const Signup = (props) => {
                         message: 'Vui lòng nhập tên tài khoản!',
                         whitespace: true,
                     },
+                    {
+                        min: 6,
+                        max: 20,
+                        message: 'tên tài khoản phải lớn hơn 6 ký tự và nhỏ hơn 20 ký tự'
+                    }
                 ]}
             >
 
@@ -131,7 +137,7 @@ const Signup = (props) => {
                         required: true,
                         message: 'Vui lòng nhập họ và tên!',
                         whitespace: true,
-                    },
+                    }
                 ]}
             >
                 <Input />

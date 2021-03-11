@@ -30,14 +30,14 @@ const ProductDetail = (props) => {
             <Col className="gutter-row" span={12} >
                 <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}  >
                     <Col className="gutter-row" span={6} >
-                        <p>Tác giả</p>
+                        {productData.author && <p>Tác giả</p>}
                         {productData.publisher && <p>Nhà xuất bản: </p>}
                         {productData.language && <p>Ngôn ngữ: </p>}
                         {productData.dimension && <p>Kích thước: </p>}
                         {productData.pages && <p>Số trang: </p>}
                     </Col>
                     <Col className="gutter-row" span={12} >
-                        <p className='product-detail__content--bold'>{productData.author.name}</p>
+                        {productData.author && <p className='product-detail__content--bold'>{productData.author.name}</p>}
                         {productData.publisher && <p className='product-detail__content--bold'>{productData.publisher}</p>}
                         {productData.language && <p className='product-detail__content--bold'>{productData.language}</p>}
                         {productData.dimension && <p className='product-detail__content--bold'>{productData.dimension}</p>}
@@ -105,15 +105,15 @@ const ProductDetail = (props) => {
                     </div>
                     <div className='product-detail__content'>
                         <Title level={2} title={productData.name}>{productData.name}</Title>
-                        <p>Tác giả: <span className='product-detail__content--bold'>{productData.author.name}</span></p>
+                        {productData.author && <p>Tác giả: <span className='product-detail__content--bold'>{productData.author.name}</span></p>}
                         {productData.book_translator && <p>Người dịch: <span className='product-detail__content--bold'>{productData.book_translator}</span></p>}
                         {productData.publisher && <p>Nhà xuất bản: <span className='product-detail__content--bold'>{productData.publisher}</span></p>}
-                        {productData.publishing.name && <p>Nhà phát hành: <span className='product-detail__content--bold'>{productData.publishing.name}</span></p>}
+                        {productData.publishing && <p>Nhà phát hành: <span className='product-detail__content--bold'>{productData.publishing.name}</span></p>}
                         {
                             productData.sale && productData.sale.active === 1 ?
                                 <>
                                     <p>Giá bìa: <NumberFormat value={` ${productData.price}`} displayType={'text'} className='card-item__sale-price' thousandSeparator={true} />
-                                    <Tag color="#87d068" style={{marginLeft: '20px'}}>-{productData.sale.percent}%</Tag>
+                                        <Tag color="#87d068" style={{ marginLeft: '20px' }}>-{productData.sale.percent}%</Tag>
                                     </p>
                                     <p>Giá bán: <NumberFormat value={` ${productData.price - productData.price * (productData.sale.percent / 100)}`} displayType={'text'} className='card-item__price' thousandSeparator={true} />
                                     </p>
@@ -132,7 +132,7 @@ const ProductDetail = (props) => {
                             </div>
                             <Button type="primary" className='product-detail__buy-now'>Mua ngay</Button>
                         </div>
-                        <strong>Số lượng:</strong> <InputNumber min={1} value={amount} onChange={(num) => setAmount(num)} />
+                        <strong>Số lượng:</strong> <InputNumber min={1} value={amount} max={10} onChange={(num) => setAmount(num)} />
                         <Button type="primary" icon={<ShoppingCartOutlined />} className='product-detail__add-cart'>
                             Thêm vào giỏ hàng
                             </Button>
