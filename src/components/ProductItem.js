@@ -18,9 +18,11 @@ const ProductItem = (props) => {
             {
                 (sale && sale.percent && sale.active===1) ?
                     <>
-                        <Tag color="#f50">{sale.percent}%</Tag>
+                        <div><Tag color="#f50">{sale.percent}%</Tag></div>
+                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
                         <NumberFormat value={price} displayType={'text'} className='card-item__sale-price' thousandSeparator={true} />
                         <NumberFormat value={price - price * (sale.percent / 100)} displayType={'text'} className='card-item__price' thousandSeparator={true} />
+                        </div>
                     </>
                     :
                     <NumberFormat value={price} displayType={'text'} className='card-item__price' thousandSeparator={true} />

@@ -6,7 +6,7 @@ import { faSearch, faCartArrowDown, faHeart } from '@fortawesome/free-solid-svg-
 import './Header.scss'
 import logo from '../assets/img/logo.jpg'
 //antd
-import { Modal, Tabs, Menu, Dropdown } from 'antd';
+import { Modal, Tabs, Menu, Dropdown, message } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 //redux
 import { connect } from 'react-redux';
@@ -67,7 +67,14 @@ const Header = (props) => {
             console.log(err);
         }
     }
-
+    const onFavouriteHeartClick = () => {
+        if (!userInfo.favourites) {
+            message.warn('Bạn cần đăng nhập để thực hiện chức năng này!');
+        }
+        else {
+            history.push('/favourite');
+        }
+    }
     return (
         <header className='header'>
             <div className='header__logo'>
@@ -87,7 +94,7 @@ const Header = (props) => {
             <div id="searchOverlay" style={{ display: `${clickSearch ? 'block' : 'none'}` }} onClick={() => setClickSearch(false)}></div>
             <div className='header__user'>
                 <Link to='/cart'><FontAwesomeIcon icon={faCartArrowDown} className='header__user-icon color-blueviolet' /></Link>
-                <Link to='/favourite'><FontAwesomeIcon icon={faHeart} className='header__user-icon' /></Link>
+                <FontAwesomeIcon icon={faHeart} className='header__user-icon' onClick={onFavouriteHeartClick} />
                 {
                     (Object.keys(userInfo).length === 0) ?
                         (<>
