@@ -5,7 +5,9 @@ import {
     UPDATE_ACCOUNT,
     GET_CATEGORY,
     ADD_BOOK_FAVOURITE,
-    REMOVE_BOOK_FAVOURITE
+    REMOVE_BOOK_FAVOURITE,
+    ADD_BOOK_CART,
+    REMOVE_BOOK_CART
 } from '../constants/ActionTypes'
 
 export const getAllProducts = (products) => {
@@ -43,6 +45,19 @@ export const addBookFavourite = (book_id) => {
 export const removeBookFavourite = (book_id) => {
     return {
         type: REMOVE_BOOK_FAVOURITE,
+        book_id
+    }
+}
+export const addBookCart = (book_id, quantity) => {
+    return {
+        type: ADD_BOOK_CART,
+        book_id,
+        quantity
+    }
+}
+export const removeBookCart = (book_id) => {
+    return {
+        type: REMOVE_BOOK_CART,
         book_id
     }
 }

@@ -7,6 +7,7 @@ import routes from './routes';
 import { API_HOST } from './constants/config'
 function App() {
   axios.defaults.baseURL = API_HOST;
+  // axios.defaults.withCredentials = false;
   return (
     <Router>
       <div className="App">
