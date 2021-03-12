@@ -11,7 +11,8 @@ import {
 } from 'antd';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import * as actions from '../actions/index'
+import * as actions from '../actions/index';
+import * as commonFunc from '../ultils/common'
 const { Option } = Select;
 
 const formItemLayout = {
@@ -49,27 +50,28 @@ const Signup = (props) => {
     const [form] = Form.useForm();
 
     useEffect(() => {
-
-        const userValue = {
-            username: userInfo.account_name,
-            fullname: userInfo.full_name,
-            email: userInfo.email,
-            gender: userInfo.gender ? userInfo.gender.toString() : undefined,
-            phone: userInfo.phone,
-            birth_date: moment(userInfo.birth_date)
+        const userValue = {};
+        if (userInfo.account_name) userValue.username = userInfo.account_name;
+        if (userInfo.full_name) userValue.fullname = userInfo.full_name;
+        if (userInfo.email) userValue.email = userInfo.email;
+        if (userInfo.gender === 0 || userInfo === 1) 
+        {
+            userValue.gender = `${userInfo.gender}`;
         }
+        if (userInfo.phone) userValue.phone = userInfo.phone;
+        if (userInfo.birth_date) userValue.birth_date = moment(`${userInfo.birth_date}`, 'DD/MM/YYYY');
         form.setFieldsValue(userValue);
+
     }, [userInfo])
 
     const onFinish = async (values) => {
         let { email, fullname, gender, username, password, phone, birth_date } = values;
-        birth_date = moment(birth_date, 'DD/MM/YYYY').format('DD/MM/YYYY');
+        birth_date = commonFunc.momentObjectToDateString(birth_date, 'DD/MM/YYYY');
         try {
             if (!isUpdateAccount) { //đăng ký
                 const data = { email, fullname, gender, username, password, phone, birth_date };
                 const res = await axios.post('/account', data);
                 const { code, msg, status } = res.data;
-                console.log('res signup', res);
                 if (code === '410') message.warning(msg);
                 if (status === 1) {
                     message.success(`${title} tài khoản thành công!`);
@@ -284,7 +286,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch, state) => {
     return {
-        onUpdateUser : (user) => {
+        onUpdateUser: (user) => {
             dispatch(actions.updateAccount(user));
         }
     }

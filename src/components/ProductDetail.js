@@ -21,10 +21,11 @@ const ProductDetail = (props) => {
     //product
     const productData = products.find(item => item.book_id == id);
     //user
-    const { favourites = [] } = user;
+    const { favourites = [], carts = [] } = user;
     const isLikeBook = favourites.find(item => item.book_id == id);
     //state
     const [amount, setAmount] = useState(1);
+    const [maxAmount, setMaxAmount] = useState(10);
     const BookSpecific = () => {
         return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} >
             <Col className="gutter-row" span={12} >
@@ -94,6 +95,28 @@ const ProductDetail = (props) => {
             message.error('Rất tiếc! Hiện tại không thể dùng chức năng này.');
         }
     }
+
+    const onAddCartClick = async () => {
+        try {
+            const hasCartBook = carts.find(item => `${item.book_id}` === id);
+            if (hasCartBook) {
+                // const amountBook = hasCartBook.quantity + amount > 10
+                //     ? productData.quantity
+                //     : 
+                // await axios.post(`${API_HOST}/book/${id}/cart`, { quantity: amountBook });
+
+            }
+        } catch (err) {
+            console.log(err);
+            message.error('Rất tiếc! Hiện tại không thể dùng chức năng này.');
+        }
+    }
+    const onAmountChange = (num) => {
+        const hasCartBook = carts.find(item => `${item.book_id}` === id);
+        if ((hasCartBook && hasCartBook.quantity + num > 10) || num > 10)
+            message.warn('Bạn chỉ có thể lấy 10 cuốn sách này!');
+        setAmount(num);
+    }
     return (
         !productData ?
             <UnFindPage />
@@ -132,10 +155,15 @@ const ProductDetail = (props) => {
                             </div>
                             <Button type="primary" className='product-detail__buy-now'>Mua ngay</Button>
                         </div>
-                        <strong>Số lượng:</strong> <InputNumber min={1} value={amount} max={10} onChange={(num) => setAmount(num)} />
-                        <Button type="primary" icon={<ShoppingCartOutlined />} className='product-detail__add-cart'>
+                        <strong>Số lượng:</strong> <InputNumber min={1} value={amount} max={maxAmount} onChange={onAmountChange} />
+                        <Button
+                            type="primary"
+                            icon={<ShoppingCartOutlined />}
+                            className='product-detail__add-cart'
+                            onClick={onAddCartClick}
+                        >
                             Thêm vào giỏ hàng
-                            </Button>
+                        </Button>
                     </div>
                 </div>
                 <Collapse defaultActiveKey={['1']} >
