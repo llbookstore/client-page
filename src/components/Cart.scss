@@ -1,0 +1,23 @@
+.ant-table-thead>tr>th {
+    display: none;
+}
+
+.ant-table-thead>tr {
+    background-color: darkcyan
+}
+
+.cart-remove {
+    font-size: 40px;
+    cursor: pointer;
+    &:hover {
+        color: tomato,
+    }
+}
+
+.cart-update-button{
+    background-color: blueviolet;
+    margin-left: 20px;
+    &:hover{
+        background-color: yellowgreen;
+    }
+}

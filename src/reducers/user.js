@@ -47,11 +47,20 @@ const userReducer = (state = initialState, action) => {
         case ADD_BOOK_CART:
             {
                 const { book_id, quantity } = action;
+                console.log('what is herer')
                 const { carts } = state;
+                const findCarts = carts.find(item => item.book_id === book_id);
+                let newCarts = [...carts];
+                if (!findCarts) newCarts.push({ book_id: parseInt(book_id), quantity })
+                else {
+                    const index = newCarts.findIndex(item => item.book_id === book_id);
+                    newCarts[index].quantity = quantity;
+                }
+                console.log('new cartss', newCarts)
                 return {
                     ...state,
-                    carts: [...carts, { book_id, state }]
-                }
+                    carts: [...newCarts]
+                };
             }
         case REMOVE_BOOK_CART:
             {

@@ -6,7 +6,7 @@ import { faSearch, faCartArrowDown, faHeart } from '@fortawesome/free-solid-svg-
 import './Header.scss'
 import logo from '../assets/img/logo.jpg'
 //antd
-import { Modal, Tabs, Menu, Dropdown, message } from 'antd';
+import { Modal, Tabs, Menu, Dropdown, message, Badge } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 //redux
 import { connect } from 'react-redux';
@@ -93,7 +93,11 @@ const Header = (props) => {
             </form>
             <div id="searchOverlay" style={{ display: `${clickSearch ? 'block' : 'none'}` }} onClick={() => setClickSearch(false)}></div>
             <div className='header__user'>
-                <Link to='/cart'><FontAwesomeIcon icon={faCartArrowDown} className='header__user-icon color-blueviolet' /></Link>
+                <Link to='/cart'>
+                    <Badge count={userInfo.carts ? userInfo.carts.length : 0} offset={[-15,0]}>
+                        <FontAwesomeIcon icon={faCartArrowDown} className='header__user-icon color-blueviolet' />
+                    </Badge>
+                </Link>
                 <FontAwesomeIcon icon={faHeart} className='header__user-icon' onClick={onFavouriteHeartClick} />
                 {
                     (Object.keys(userInfo).length === 0) ?

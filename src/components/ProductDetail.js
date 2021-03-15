@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { Button, Typography, Collapse, Row, Col, message, InputNumber, Tag } from 'antd';
+import { useParams, useHistory } from 'react-router-dom';
+import { Button, Typography, Collapse, Row, Col, message, InputNumber, Tag, Card } from 'antd';
 import { HeartFilled, ShoppingCartOutlined } from '@ant-design/icons';
 import NumberFormat from 'react-number-format';
 import { decode } from 'html-entities';
@@ -9,14 +9,15 @@ import parse from 'html-react-parser';
 import * as actions from '../actions/index';
 import axios from 'axios';
 import './ProductDetail.scss';
-import { API_HOST } from '../constants/config';
+import { API_HOST, MAX_CART } from '../constants/config';
 import * as commonFunc from '../ultils/common';
 import UnFindPage from './UnFindPage';
 const { Title } = Typography;
 const { Panel } = Collapse;
 
 const ProductDetail = (props) => {
-    const { products, user, onAddBookFavourite, onRemoveBookFavourte } = props;
+    const history = useHistory();
+    const { products, user, onAddBookFavourite, onRemoveBookFavourte, onAddBookCart } = props;
     const { id } = useParams();
     //product
     const productData = products.find(item => item.book_id == id);
@@ -26,6 +27,15 @@ const ProductDetail = (props) => {
     //state
     const [amount, setAmount] = useState(1);
     const [maxAmount, setMaxAmount] = useState(10);
+    useEffect(() => {
+        if (user.carts) {
+            const bookCart = user.carts.find(item => item.book_id === +id);
+            let newMax = bookCart ? MAX_CART - bookCart.quantity : MAX_CART;
+            newMax = Math.min(newMax, productData.quantity);
+            // newMax = newMax > productData.quantity ? productData.quantity : newMax;
+            setMaxAmount(newMax);
+        }
+    }, [user.carts])
     const BookSpecific = () => {
         return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} >
             <Col className="gutter-row" span={12} >
@@ -100,11 +110,38 @@ const ProductDetail = (props) => {
         try {
             const hasCartBook = carts.find(item => `${item.book_id}` === id);
             if (hasCartBook) {
-                // const amountBook = hasCartBook.quantity + amount > 10
-                //     ? productData.quantity
-                //     : 
-                // await axios.post(`${API_HOST}/book/${id}/cart`, { quantity: amountBook });
+                const res = await axios.post(`${API_HOST}/book/${id}/cart`, { quantity: amount + hasCartBook.quantity });
+                const { status } = res;
+                if (status === 0) {
+                    message.warn('Không thêm được sản phẩm vào giỏ hàng vào lúc này! Bạn hãy thử lại sau.');
+                }
+                else {
+                    onAddBookCart(+id, amount);
+                    message.success('Đã thêm sản phẩm này vào giỏ hàng của bạn');
+                }
+            }
+            else {
+                const res = await axios.post(`${API_HOST}/book/${id}/cart`, { quantity: amount });
+                onAddBookCart(+id, amount);
+                message.success('Đã thêm sản phẩm này vào giỏ hàng của bạn');
+            }
+        } catch (err) {
+            console.log(err);
+            message.error('Rất tiếc! Hiện tại không thể dùng chức năng này.');
+        }
+    }
 
+    const onHandleBuyNowClick = async () => {
+        try {
+            const hasCartBook = carts.find(item => `${item.book_id}` === id);
+            if (hasCartBook) {
+                await axios.post(`${API_HOST}/book/${id}/cart`, { quantity: amount + hasCartBook.quantity });
+                onAddBookCart(+id, amount);
+            }
+            else {
+                await axios.post(`${API_HOST}/book/${id}/cart`, { quantity: amount });
+                onAddBookCart(+id, amount);
+                history.push('/cart')
             }
         } catch (err) {
             console.log(err);
@@ -112,16 +149,15 @@ const ProductDetail = (props) => {
         }
     }
     const onAmountChange = (num) => {
-        const hasCartBook = carts.find(item => `${item.book_id}` === id);
-        if ((hasCartBook && hasCartBook.quantity + num > 10) || num > 10)
-            message.warn('Bạn chỉ có thể lấy 10 cuốn sách này!');
+        if (num > maxAmount)
+            message.warn(`Bạn chỉ có thể lấy ${MAX_CART} cuốn sách này!`);
         setAmount(num);
     }
     return (
         !productData ?
             <UnFindPage />
             :
-            <>
+            <Card>
                 <div className='product-detail'>
                     <div className='product-detail__image'>
                         <img src={`${API_HOST}/images/${productData.cover_image}`} alt={productData.name} />
@@ -153,7 +189,7 @@ const ProductDetail = (props) => {
                                 <HeartFilled title='Thích' className='product-detail__heart' />
                                 <span className='product-detail__like'>THÍCH</span>
                             </div>
-                            <Button type="primary" className='product-detail__buy-now'>Mua ngay</Button>
+                            <Button type="primary" className='product-detail__buy-now' onClick={onHandleBuyNowClick}>Mua ngay</Button>
                         </div>
                         <strong>Số lượng:</strong> <InputNumber min={1} value={amount} max={maxAmount} onChange={onAmountChange} />
                         <Button
@@ -174,7 +210,7 @@ const ProductDetail = (props) => {
                         <BookSpecific />
                     </Panel>
                 </Collapse>
-            </>
+            </ Card>
 
     )
 }
@@ -185,7 +221,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, props) => {
     return {
         onAddBookFavourite: (book_id) => dispatch(actions.addBookFavourite(book_id)),
-        onRemoveBookFavourte: (book_id) => dispatch(actions.removeBookFavourite(book_id))
+        onRemoveBookFavourte: (book_id) => dispatch(actions.removeBookFavourite(book_id)),
+        onAddBookCart: (book_id, quantity) => dispatch(actions.addBookCart(book_id, quantity))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);

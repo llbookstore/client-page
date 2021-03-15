@@ -21,6 +21,16 @@
             content: 'đ ';
             color: var(--color-secondary)
         }
+        &--black{
+            color: 'black';
+            font-weight: 600;
+            font-size: large;
+            padding-left: 3px;
+            &::after{
+                content: 'đ ';
+                color: 'black'
+            }
+        }
     }
     &__sale-price {
         font-size: larger;
