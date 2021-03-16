@@ -116,7 +116,7 @@ const ProductDetail = (props) => {
                     message.warn('Không thêm được sản phẩm vào giỏ hàng vào lúc này! Bạn hãy thử lại sau.');
                 }
                 else {
-                    onAddBookCart(+id, amount);
+                    onAddBookCart(+id, amount+hasCartBook.quantity);
                     message.success('Đã thêm sản phẩm này vào giỏ hàng của bạn');
                 }
             }
@@ -136,13 +136,14 @@ const ProductDetail = (props) => {
             const hasCartBook = carts.find(item => `${item.book_id}` === id);
             if (hasCartBook) {
                 await axios.post(`${API_HOST}/book/${id}/cart`, { quantity: amount + hasCartBook.quantity });
-                onAddBookCart(+id, amount);
+                onAddBookCart(+id, amount + hasCartBook.quantity);
+                console.log('herer')
             }
             else {
                 await axios.post(`${API_HOST}/book/${id}/cart`, { quantity: amount });
                 onAddBookCart(+id, amount);
-                history.push('/cart')
             }
+            history.push('/cart')
         } catch (err) {
             console.log(err);
             message.error('Rất tiếc! Hiện tại không thể dùng chức năng này.');

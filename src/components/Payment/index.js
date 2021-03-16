@@ -143,7 +143,16 @@ const Payment = (props) => {
                     user_id: user.account_id
                 }
                 const res = await axios.post('/bill', data);
-                if (res.data.status === 1) {
+                if (res.data && res.data.status === 1) {
+                    const { bill_id } = res.data.data;
+                    for (let i of dataCart) {
+                        const { book_id, cartQuantity, price, sale } = i;
+                        const realPrice = (sale && sale.active === 1) ? price - price*sale.percent/100 : price;
+                        const dataReq = {book_id,quantity: cartQuantity, price: realPrice};
+                        console.log(dataReq)
+                        const resBillDetail = await axios.post(`/bill/${bill_id}/detail`,dataReq)
+                        console.log(resBillDetail);
+                    }
                     onRemoveAllCart();
                     setIsSuccessPayment(true);
                 }
