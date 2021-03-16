@@ -4,7 +4,6 @@ import {
     Form,
     Input,
     message,
-    Select,
     Radio,
     Button,
     DatePicker,
@@ -13,7 +12,6 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import * as commonFunc from '../ultils/common'
-const { Option } = Select;
 
 const formItemLayout = {
     labelCol: {

@@ -4,6 +4,8 @@ import Favourtites from './components/Favourtites';
 import SearchProduct from './components/SearchProduct';
 import CategoryDetail from './components/CategoryDetail';
 import Cart from './components/Cart';
+import Payment from './components/Payment/index';
+
 const router = [
     {
         path: '/',
@@ -34,6 +36,11 @@ const router = [
         path: '/cart',
         exact: true, 
         component: Cart
+    },
+    {
+        path: '/payment',
+        exact: true, 
+        component: Payment
     },
 ]
 

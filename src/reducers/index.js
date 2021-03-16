@@ -9,7 +9,7 @@ import category from './category'
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['products', 'category']
+    whitelist: ['products', 'category', 'user']
 }
 const rootReducer = combineReducers({
     products, user, category

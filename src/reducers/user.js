@@ -5,7 +5,8 @@ import {
     ADD_BOOK_FAVOURITE,
     REMOVE_BOOK_FAVOURITE,
     ADD_BOOK_CART,
-    REMOVE_BOOK_CART
+    REMOVE_BOOK_CART,
+    REMOVE_ALL_BOOK_CART
 } from '../constants/ActionTypes'
 const userData = sessionStorage.getItem('userData');
 const initialState = (userData === null || userData === 'null') ? {} : JSON.parse(userData);
@@ -16,15 +17,26 @@ const userReducer = (state = initialState, action) => {
             return { ...action.data };
         case LOG_OUT:
             return {};
-        case UPDATE_ACCOUNT:
+        case UPDATE_ACCOUNT: {
+            const { 
+                fullname = state.fullname,
+                gender = state.gender,
+                email = state.email,
+                phone = state.phone,
+                birth_date = state.birth_date,
+                address= state.address
+            }
+                = action.data;
             return {
                 ...state,
-                fullname: action.data.fullname,
-                gender: action.data.gender,
-                email: action.data.email,
-                phone: action.data.phone,
-                birth_date: action.data.birth_date
+                fullname: fullname,
+                gender: gender,
+                email: email,
+                phone: phone,
+                birth_date: birth_date,
+                address: address
             }
+        }
         case ADD_BOOK_FAVOURITE:
             {
                 const { book_id } = action;
@@ -70,6 +82,13 @@ const userReducer = (state = initialState, action) => {
                 return {
                     ...state,
                     carts: [...removeBookCart]
+                }
+            }
+        case REMOVE_ALL_BOOK_CART:
+            {
+                return {
+                    ...state,
+                    carts: []
                 }
             }
         default:

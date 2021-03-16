@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Link,useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { Table, Typography, InputNumber, message, Card, Button } from 'antd'
 import { CloseCircleOutlined } from '@ant-design/icons'
 import NumberFormat from 'react-number-format'
@@ -29,7 +29,7 @@ const BookDescription = (props) => {
     }
     const onHandleUpdateCart = async () => {
         try {
-            const res = axios.post(`${API_HOST}/book/${book_id}/cart`,{quantity: amount})
+            const res = axios.post(`${API_HOST}/book/${book_id}/cart`, { quantity: amount })
             if (res.data && res.data.status === 1) {
                 message.success('Cập nhật giỏ hàng thành công');
                 onAddBookCart(book_id, amount);
@@ -39,7 +39,6 @@ const BookDescription = (props) => {
             message.error('Có lỗi xảy ra! Vui lòng thực hiện lại sau.')
         }
         onAddBookCart(book_id, amount)
-        console.log(onAddBookCart);
         message.success('Cập nhật thành công');
     }
     return (<>
@@ -175,11 +174,9 @@ const Cart = (props) => {
                                                     }
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <Button type='primary' onClick={() => history.push('/payment')}>Thanh toán</Button>
-                                            </tr>
                                         </tbody>
                                     </table>
+                                    <Button type='primary' onClick={() => history.push('/payment')}>Thanh toán</Button>
                                 </Card>
                             </div>
                         </div>
