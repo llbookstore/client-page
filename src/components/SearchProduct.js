@@ -8,7 +8,7 @@ function useQuery() {
 }
 
 const SearchProduct = (props) => {
-    const { user, products } = props;
+    const { products } = props;
     const query = useQuery();
     const q = query.get('q');
 
@@ -29,7 +29,7 @@ const SearchProduct = (props) => {
     )
 }
 const mapStateToProps = (state) => {
-    const { user, products } = state;
-    return { user, products };
+    const { products } = state;
+    return { products };
 }
 export default connect(mapStateToProps)(SearchProduct);

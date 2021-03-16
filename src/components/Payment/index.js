@@ -4,13 +4,15 @@ import { useHistory } from 'react-router-dom'
 import { Typography, Steps, Button, message, Card, Row, Col } from 'antd'
 import NumberFormat from 'react-number-format'
 import Address from './Address';
+import SuccessPayment from './SuccessPayment'
 import PaymentType from './PaymentType';
 import * as actions from '../../actions/index'
 import { API_HOST, paymentTypes } from '../../constants/config'
+import axios from 'axios'
 const { Title } = Typography;
 const { Step } = Steps;
 const Payment = (props) => {
-    const { user, products } = props;
+    const { user, products, onRemoveAllCart } = props;
     const history = useHistory();
     useEffect(() => {
         if (!user.account_name) {
@@ -24,6 +26,7 @@ const Payment = (props) => {
     const [note, setNote] = useState('');
     const [type, setType] = useState(0);//payment type
     const [current, setCurrent] = useState(0);
+    const [isSuccessPayment, setIsSuccessPayment] = useState(false);
     const userData = { fullname, account_name, phone, address, note };
     const dataCart = products
         .filter(item => !!user.carts.find(i => i.book_id === item.book_id))
@@ -117,7 +120,6 @@ const Payment = (props) => {
     ];
 
     const next = () => {
-        console.log(address, phone, fullname, note)
         if (!phone || !address || !fullname) {
             message.warn('Bạn hãy nhập đủ thông tin. Hãy kiểm tra thông tin của bạn được lưu chưa.');
         }
@@ -128,36 +130,66 @@ const Payment = (props) => {
     const prev = () => {
         setCurrent(current - 1);
     };
-    const onHandlePayment = () => { 
-        message.success('Đặt hàng thành công')
+    const onHandlePayment = async () => {
+        try {
+            if (totalPrice !== 0) {
+                const data = {
+                    user_name: fullname,
+                    phone,
+                    address,
+                    user_note: note,
+                    payment_method: type,
+                    total_price: totalPrice,
+                    user_id: user.account_id
+                }
+                const res = await axios.post('/bill', data);
+                if (res.data.status === 1) {
+                    onRemoveAllCart();
+                    setIsSuccessPayment(true);
+                }
+                else
+                    message.error('Đặt hàng không thành công')
+            }
+        } catch (err) {
+            console.log(err);
+            message.warn('Có lỗi xảy ra. Rất xin lỗi. Bạn không thể đặt hàng lúc này');
+        }
     }
     return (
-        <div>
-            <Title level={1} style={{ textAlign: 'center' }}>LLBOOK</Title>
-            <Steps current={current}>
-                {steps.map(item => (
-                    <Step key={item.title} title={item.title} />
-                ))}
-            </Steps>
-            <Card className="steps-content">{steps[current].content}</Card>
-            <div className="steps-action" style={{ textAlign: 'center' }}>
-                {current > 0 && (
-                    <Button size='large' style={{ margin: '0 8px' }} onClick={() => prev()}>
-                        Quay lại
-                    </Button>
-                )}
-                {current === steps.length - 1 && (
-                    <Button type="primary" size='large' onClick={onHandlePayment}>
-                        Xác nhận mua hàng
-                    </Button>
-                )}
-                {current < steps.length - 1 && (
-                    <Button type="primary" size='large' onClick={() => next()}>
-                        Tiếp tục
-                    </Button>
-                )}
-            </div>
-        </div>
+        <>
+            {
+                isSuccessPayment ? <SuccessPayment />
+                    :
+                    (user.carts.length > 0 &&
+                        <>
+                            <Title level={1} style={{ textAlign: 'center' }}>LLBOOK</Title>
+                            <Steps current={current}>
+                                {steps.map(item => (
+                                    <Step key={item.title} title={item.title} />
+                                ))}
+                            </Steps>
+                            <Card className="steps-content">{steps[current].content}</Card>
+                            <div className="steps-action" style={{ textAlign: 'center' }}>
+                                {current > 0 && (
+                                    <Button size='large' style={{ margin: '0 8px' }} onClick={() => prev()}>
+                                        Quay lại
+                                    </Button>
+                                )}
+                                {current === steps.length - 1 && (
+                                    <Button type="primary" size='large' onClick={onHandlePayment}>
+                                        Xác nhận mua hàng
+                                    </Button>
+                                )}
+                                {current < steps.length - 1 && (
+                                    <Button type="primary" size='large' onClick={() => next()}>
+                                        Tiếp tục
+                                    </Button>
+                                )}
+                            </div>
+                        </>
+                    )
+            }
+        </>
     )
 }
 const mapStateToProps = (state) => {
@@ -166,9 +198,6 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch, state) => {
     return {
-        onUpdateUser: (user) => {
-            dispatch(actions.updateAccount(user));
-        },
         onRemoveAllCart: () => {
             dispatch(actions.removeAllBookCart());
         }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
-import { Table, Typography, InputNumber, message, Card, Button } from 'antd'
+import { Table, Typography, InputNumber, message, Card, Button, Row, Col } from 'antd'
 import { CloseCircleOutlined } from '@ant-design/icons'
 import NumberFormat from 'react-number-format'
 import axios from 'axios'
@@ -145,15 +145,17 @@ const Cart = (props) => {
                     :
                     <>
                         <Title level={1} style={{ textAlign: 'center', color: 'blueviolet' }}>Giỏ hàng</Title>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                            <Table
-                                className={'ant-table-thead'}
-                                columns={columns}
-                                dataSource={data}
-                                title={() => <Title level={2}>Sản phẩm</Title>}
-                                pagination={false}
-                            />
-                            <div className="site-card-border-less-wrapper" >
+                        <Row wrap={true}>
+                            <Col style={{paddingTop: 20}}>
+                                <Table
+                                    className={'ant-table-thead'}
+                                    columns={columns}
+                                    dataSource={data}
+                                    title={() => <Title level={2}>Sản phẩm</Title>}
+                                    pagination={false}
+                                />
+                            </Col>
+                            <Col style={{paddingTop: 20}}>
                                 <Card title={<span style={{ color: 'tomato' }}>Tóm tắt đơn hàng</span>} bordered={false} style={{ width: 300, marginLeft: 10 }}>
                                     <table width='100%'>
                                         <tbody>
@@ -178,8 +180,8 @@ const Cart = (props) => {
                                     </table>
                                     <Button type='primary' onClick={() => history.push('/payment')}>Thanh toán</Button>
                                 </Card>
-                            </div>
-                        </div>
+                            </Col>
+                            </Row>
                     </>
             }
         </>

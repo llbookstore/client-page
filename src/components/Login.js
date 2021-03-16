@@ -27,7 +27,7 @@ const Login = (props) => {
         try {
             const { username, password } = values;
             const res = await axios.post('/login', { username, password });
-            const { status, code, data } = res.data;
+            const { status, data } = res.data;
             if (status === 0) message.error('Tên tài khoản hoặc mật khẩu không chính xác.');
             if (data.token) {
                 message.success('Đăng nhập thành công!');

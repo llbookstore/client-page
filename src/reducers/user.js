@@ -50,7 +50,7 @@ const userReducer = (state = initialState, action) => {
             {
                 const { book_id } = action;
                 const { favourites } = state;
-                const removeFavourite = favourites.filter(item => item.book_id != book_id);
+                const removeFavourite = favourites.filter(item => item.book_id !== book_id);
                 return {
                     ...state,
                     favourites: [...removeFavourite]
@@ -78,7 +78,7 @@ const userReducer = (state = initialState, action) => {
             {
                 const { book_id } = action;
                 const { carts } = state;
-                const removeBookCart = carts.filter(item => item.book_id != book_id);
+                const removeBookCart = carts.filter(item => item.book_id !== book_id);
                 return {
                     ...state,
                     carts: [...removeBookCart]
