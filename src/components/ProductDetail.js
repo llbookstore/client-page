@@ -89,14 +89,14 @@ const ProductDetail = (props) => {
         try {
             if (isLikeBook) {
                 await axios.delete(`${API_HOST}/book/${id}/favourite`);
-                onRemoveBookFavourte(id);
+                onRemoveBookFavourte(parseInt(id));
                 message.success('Đã loại bỏ cuốn sách này khỏi danh sách yêu thích của bạn');
             }
             else {
                 if (!user.favourites) message.warn('Bạn cần đăng nhập để thực hiện tính năng này!');
                 else {
                     await axios.post(`${API_HOST}/book/${id}/favourite`);
-                    onAddBookFavourite(id);
+                    onAddBookFavourite(parseInt(id));
                     message.success('Đã thêm cuốn sách này vào danh sách yêu thích của bạn');
                 }
             }

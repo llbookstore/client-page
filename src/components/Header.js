@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faCartArrowDown, faHeart } from '@fortawesome/free-solid-svg-icons'
@@ -15,7 +14,7 @@ import * as actions from '../actions'
 import Login from './Login'
 import Signup from './Signup'
 const Header = (props) => {
-    const { userInfo, onLogout, onGetProducts, onGetCategories } = props;
+    const { userInfo, onLogout } = props;
     const [inputSearch, setInputSearch] = useState('');
     const [clickSearch, setClickSearch] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -45,28 +44,6 @@ const Header = (props) => {
         history.push(`/search?q=${inputSearch}`);
     }
 
-    useEffect(() => {
-        getBooks();
-        getCategories();
-    }, [])
-
-    async function getBooks() {
-        try {
-            const res = await axios.get('/books?row_per_page=10000000&active=1');
-            onGetProducts(res.data.data.rows);
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    async function getCategories() {
-        try {
-            const res = await axios.get('/category?active=1');
-            onGetCategories(res.data.data);
-        } catch (err) {
-            console.log(err);
-        }
-    }
     const onFavouriteHeartClick = () => {
         if (!userInfo.favourites) {
             message.warn('Bạn cần đăng nhập để thực hiện chức năng này!');
@@ -143,9 +120,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onLogout: () => dispatch(actions.logout()),
-        onGetProducts: (products) => dispatch(actions.getAllProducts(products)),
-        onGetCategories: (categories) => dispatch(actions.getCategories(categories))
+        onLogout: () => dispatch(actions.logout())
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

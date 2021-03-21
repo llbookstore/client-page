@@ -34,13 +34,14 @@ const Login = (props) => {
                 onLogin(true);
                 //get user data
                 const { userId } = jwt.decode(data.token);
-                const userData = await axios.get(`/account/${userId}`);
+                const res = await axios.get(`/account/${userId}`);
+                const userData = res.data.data;
+                userData.token = data.token
                 //sessionStorage.setItem('token', JSON.stringify(data.token));
-                sessionStorage.setItem('userData', JSON.stringify(userData.data.data));
-                onGetUserData(userData.data.data);
+                sessionStorage.setItem('userData', JSON.stringify(userData));
+                onGetUserData(userData);
                 //remove fields
                 form.resetFields();
-                axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
                 handleVisibleModal(false);
             }
         } catch (err) {

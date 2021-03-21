@@ -18,13 +18,13 @@ const userReducer = (state = initialState, action) => {
         case LOG_OUT:
             return {};
         case UPDATE_ACCOUNT: {
-            const { 
+            const {
                 fullname = state.fullname,
                 gender = state.gender,
                 email = state.email,
                 phone = state.phone,
                 birth_date = state.birth_date,
-                address= state.address
+                address = state.address
             }
                 = action.data;
             return {
@@ -39,7 +39,7 @@ const userReducer = (state = initialState, action) => {
         }
         case ADD_BOOK_FAVOURITE:
             {
-                const { book_id } = action;
+                const book_id = parseInt(action.book_id);
                 const { favourites } = state;
                 return {
                     ...state,
@@ -48,7 +48,7 @@ const userReducer = (state = initialState, action) => {
             }
         case REMOVE_BOOK_FAVOURITE:
             {
-                const { book_id } = action;
+                const book_id = parseInt(action.book_id);
                 const { favourites } = state;
                 const removeFavourite = favourites.filter(item => item.book_id !== book_id);
                 return {
