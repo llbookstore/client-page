@@ -28,14 +28,17 @@ const Payment = (props) => {
     const [current, setCurrent] = useState(0);
     const [isSuccessPayment, setIsSuccessPayment] = useState(false);
     const userData = { fullname, account_name, phone, address, note };
-    const dataCart = products
-        .filter(item => !!user.carts.find(i => i.book_id === item.book_id))
-        .map((item, index) => {
-            const bookCart = user.carts.find(i => i.book_id === item.book_id);
-            item.key = index;
-            item.cartQuantity = bookCart.quantity;
-            return item;
-        });
+    const dataCart = user.carts ?
+        products
+            .filter(item => !!user.carts.find(i => i.book_id === item.book_id))
+            .map((item, index) => {
+                const bookCart = user.carts.find(i => i.book_id === item.book_id);
+                item.key = index;
+                item.cartQuantity = bookCart.quantity;
+                return item;
+            })
+        : [];
+
     const totalPrice = dataCart.reduce((pre, item) => {
         const isSale = (item.sale && item.active === 1);
         const realPrice = !isSale ? item.price : item.price - item.price * (item.sale.percent / 100);
@@ -147,10 +150,10 @@ const Payment = (props) => {
                     const { bill_id } = res.data.data;
                     for (let i of dataCart) {
                         const { book_id, cartQuantity, price, sale } = i;
-                        const realPrice = (sale && sale.active === 1) ? price - price*sale.percent/100 : price;
-                        const dataReq = {book_id,quantity: cartQuantity, price: realPrice};
+                        const realPrice = (sale && sale.active === 1) ? price - price * sale.percent / 100 : price;
+                        const dataReq = { book_id, quantity: cartQuantity, price: realPrice };
                         console.log(dataReq)
-                        const resBillDetail = await axios.post(`/bill/${bill_id}/detail`,dataReq)
+                        const resBillDetail = await axios.post(`/bill/${bill_id}/detail`, dataReq)
                         console.log(resBillDetail);
                     }
                     onRemoveAllCart();
@@ -169,7 +172,7 @@ const Payment = (props) => {
             {
                 isSuccessPayment ? <SuccessPayment />
                     :
-                    (user.carts.length > 0 &&
+                    (user.carts && user.carts.length > 0 &&
                         <>
                             <Title level={1} style={{ textAlign: 'center' }}>LLBOOK</Title>
                             <Steps current={current}>

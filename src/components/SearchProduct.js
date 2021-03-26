@@ -11,12 +11,12 @@ const SearchProduct = (props) => {
     const { products } = props;
     const query = useQuery();
     const q = query.get('q');
-
     const listProduct = products
         .filter(item => item.name.includes(q)
-            || item.author.name.includes(q)
-            || item.description.includes(q)
+                || (item.author && item.author.name.includes(q))
+                || item.description.includes(q)
         );
+    console.log('list', listProduct)
     return (
         <>
             {
