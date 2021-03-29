@@ -11,7 +11,7 @@ const Home = (props) => {
         const filterProducts = products.filter(
             item => !!item.category_details
                 .find(i => i.category_id === category_id));
-        filterProducts.length = 8;
+        filterProducts.length = 4;
         return filterProducts;
     }
     const ShowCatMore = (category_id) => {

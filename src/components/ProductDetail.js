@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
-import { Button, Typography, Collapse, Row, Col, message, InputNumber, Tag, Card } from 'antd';
+import { useParams, useHistory, Link } from 'react-router-dom';
+import { Button, Typography, Collapse, Row, Col, message, InputNumber, Tag, Card, Image } from 'antd';
 import { HeartFilled, ShoppingCartOutlined } from '@ant-design/icons';
 import NumberFormat from 'react-number-format';
 import { decode } from 'html-entities';
@@ -48,7 +48,7 @@ const ProductDetail = (props) => {
                         {productData.pages && <p>Số trang: </p>}
                     </Col>
                     <Col className="gutter-row" span={12} >
-                        {productData.author && <p className='product-detail__content--bold'>{productData.author.name}</p>}
+                        {productData.author && <Link to={`/author/${productData.author.author_id}`}><p className='product-detail__content--link'>{productData.author.name}</p></Link>}
                         {productData.publisher && <p className='product-detail__content--bold'>{productData.publisher}</p>}
                         {productData.language && <p className='product-detail__content--bold'>{productData.language}</p>}
                         {productData.dimension && <p className='product-detail__content--bold'>{productData.dimension}</p>}
@@ -171,11 +171,11 @@ const ProductDetail = (props) => {
             <Card>
                 <div className='product-detail'>
                     <div className='product-detail__image'>
-                        <img src={`${API_HOST}/images/${productData.cover_image}`} alt={productData.name} />
+                        <Image src={`${API_HOST}/images/${productData.cover_image}`} alt={productData.name} />
                     </div>
                     <div className='product-detail__content'>
                         <Title level={2} title={productData.name}>{productData.name}</Title>
-                        {productData.author && <p>Tác giả: <span className='product-detail__content--bold'>{productData.author.name}</span></p>}
+                        {productData.author && <p>Tác giả: <Link to={`/author/${productData.author.author_id}`}><span className='product-detail__content--link'>{productData.author.name}</span></Link></p>}
                         {productData.book_translator && <p>Người dịch: <span className='product-detail__content--bold'>{productData.book_translator}</span></p>}
                         {productData.publisher && <p>Nhà xuất bản: <span className='product-detail__content--bold'>{productData.publisher}</span></p>}
                         {productData.publishing && <p>Nhà phát hành: <span className='product-detail__content--bold'>{productData.publishing.name}</span></p>}
@@ -211,6 +211,7 @@ const ProductDetail = (props) => {
                         >
                             Thêm vào giỏ hàng
                         </Button>
+                        {productData.quantity === 0 && <p style={{color: 'red', fontSize:'20px'}}>Sản phẩm này đã hết hàng</p>}
                     </div>
                 </div>
                 <Collapse defaultActiveKey={['1']} >

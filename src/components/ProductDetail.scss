@@ -56,10 +56,17 @@
 
     &__content {
         flex: 70%;
-
         &--bold {
             font-weight: bold;
         }
+        &--link{
+            color: blue;
+            font-weight: bold;
+            &:hover{
+                color: yellowgreen
+            }
+        }
+
     }
 
     &__description {

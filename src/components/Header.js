@@ -52,6 +52,15 @@ const Header = (props) => {
             history.push('/favourite');
         }
     }
+
+    const onCartIconClick = () =>{
+        if (!userInfo.carts) {
+            message.warn('Bạn cần đăng nhập để thực hiện chức năng này!');
+        }
+        else {
+            history.push('/cart');
+        }
+    }
     return (
         <header className='header'>
             <div className='header__logo'>
@@ -70,11 +79,9 @@ const Header = (props) => {
             </form>
             <div id="searchOverlay" style={{ display: `${clickSearch ? 'block' : 'none'}` }} onClick={() => setClickSearch(false)}></div>
             <div className='header__user'>
-                <Link to='/cart'>
-                    <Badge count={userInfo.carts ? userInfo.carts.length : 0} offset={[-15,0]}>
-                        <FontAwesomeIcon icon={faCartArrowDown} className='header__user-icon color-blueviolet' />
-                    </Badge>
-                </Link>
+                <Badge count={userInfo.carts ? userInfo.carts.length : 0} offset={[-15, 0]}>
+                    <FontAwesomeIcon icon={faCartArrowDown} className='header__user-icon color-blueviolet' onClick={onCartIconClick} />
+                </Badge>
                 <FontAwesomeIcon icon={faHeart} className='header__user-icon' onClick={onFavouriteHeartClick} />
                 {
                     (Object.keys(userInfo).length === 0) ?

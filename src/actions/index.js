@@ -8,7 +8,8 @@ import {
     REMOVE_BOOK_FAVOURITE,
     ADD_BOOK_CART,
     REMOVE_BOOK_CART,
-    REMOVE_ALL_BOOK_CART
+    REMOVE_ALL_BOOK_CART,
+    GET_AUTHORS
 } from '../constants/ActionTypes'
 
 export const getAllProducts = (products) => {
@@ -67,12 +68,17 @@ export const removeAllBookCart = () => {
         type: REMOVE_ALL_BOOK_CART
     }
 }
-
-
 //category
 export const getCategories = (categories) => {
     return {
         type: GET_CATEGORY,
         data: categories
+    }
+}
+//author
+export const getAuthors = (authors) => {
+    return {
+        type: GET_AUTHORS,
+        data: authors
     }
 }
