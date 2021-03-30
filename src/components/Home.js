@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
-import Category from './Category';
+import Category from './Category/Category';
 import ProductList from './ProductList';
 
 const Home = (props) => {
     const { category, products } = props;
-    const listCategoryFirst = category.filter(item => item.group_id === -1);
+    let listCategoryFirst = category.filter(item => item.group_id === -1);
+    listCategoryFirst.length = 4;
     const listProduct = (category_id) => {
         const filterProducts = products.filter(
             item => !!item.category_details
@@ -22,7 +23,7 @@ const Home = (props) => {
     }
     return (
         <>
-            <Category category={category} />
+            <Category category={category} products={products}/>
             {
                 listCategoryFirst
                     .map(cat => <ProductList

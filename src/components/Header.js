@@ -53,7 +53,7 @@ const Header = (props) => {
         }
     }
 
-    const onCartIconClick = () =>{
+    const onCartIconClick = () => {
         if (!userInfo.carts) {
             message.warn('Bạn cần đăng nhập để thực hiện chức năng này!');
         }
@@ -82,7 +82,9 @@ const Header = (props) => {
                 <Badge count={userInfo.carts ? userInfo.carts.length : 0} offset={[-15, 0]}>
                     <FontAwesomeIcon icon={faCartArrowDown} className='header__user-icon color-blueviolet' onClick={onCartIconClick} />
                 </Badge>
-                <FontAwesomeIcon icon={faHeart} className='header__user-icon' onClick={onFavouriteHeartClick} />
+                <Badge count={userInfo.favourites ? userInfo.favourites.length : 0} offset={[-15, 0]}>
+                    <FontAwesomeIcon icon={faHeart} className='header__user-icon' onClick={onFavouriteHeartClick} />
+                </Badge>
                 {
                     (Object.keys(userInfo).length === 0) ?
                         (<>

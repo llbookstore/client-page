@@ -1,5 +1,6 @@
 .category-main {
     width: 256px;
+    position: relative;
     background-color: yellowgreen;
     color:black;
     &__sub {
@@ -14,4 +15,14 @@
     font-weight: large;
     color: var(--color-blueviolet);
     cursor: text;
+}
+
+.category-content {
+    position: absolute;
+    z-index: 500;
+    top: 0;
+    left: 256px;
+    height: 80vh;
+    width: 70vw;
+    
 }

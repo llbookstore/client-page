@@ -12,7 +12,6 @@ function Author(props) {
     const { id } = params;
     const findAuthor = author.find(item => item.author_id.toString() === id);
     const findAuthorBook = products.filter(item => item.author.author_id == id);
-    console.log('aaa', findAuthor)
     return (
         <Card>
             {
@@ -25,11 +24,11 @@ function Author(props) {
                                 <Row gutter={24}>
                                     {
                                         findAuthor.avatar &&
-                                        <Col span={4}>
+                                        <Col span={6}>
                                             <Image alt={findAuthor.name} src={`${API_HOST}/images/${findAuthor.avatar}`} />
                                         </Col>
                                     }
-                                    <Col span={16} style={{fontSize: '18px'}}>
+                                    <Col span={18} style={{fontSize: '18px'}}>
                                         {findAuthor.description}
                                     </Col>
                                 </Row>

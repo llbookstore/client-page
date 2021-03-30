@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import 'antd/dist/antd.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import './App.scss';
 import axios from 'axios'
 import Header from './components/Header';
