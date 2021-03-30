@@ -9,15 +9,16 @@ import Header from './components/Header';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import routes from './routes';
 import { API_HOST } from './constants/config'
-import { getAllProducts, getCategories, getAuthors } from './actions/index'
+import { getAllProducts, getCategories, getAuthors, getPublishingHouses } from './actions/index'
 function App(props) {
-  const { user, onGetCategories, onGetProducts, onGetAuthors } = props;
+  const { user, onGetCategories, onGetProducts, onGetAuthors, onGetPublishingHouses } = props;
   axios.defaults.baseURL = API_HOST;
   axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
   useEffect(() => {
     getBooks();
     getCategories();
     getAllAuthors();
+    getAllPublishingHouses();
   }, [])
 
   async function getBooks() {
@@ -42,6 +43,15 @@ function App(props) {
     try {
       const res = await axios.get('/author?row_per_page=1000000&active=1');
       onGetAuthors(res.data.data.rows);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function getAllPublishingHouses() {
+    try {
+      const res = await axios.get('/publishing_house?active=1');
+      onGetPublishingHouses(res.data.data);
     } catch (err) {
       console.log(err);
     }
@@ -71,7 +81,8 @@ const mapDispatchToProps = (dispatch, props) => {
   return {
     onGetProducts: (products) => dispatch(getAllProducts(products)),
     onGetCategories: (categories) => dispatch(getCategories(categories)),
-    onGetAuthors: (authors) => dispatch(getAuthors(authors))
+    onGetAuthors: (authors) => dispatch(getAuthors(authors)),
+    onGetPublishingHouses: (publishing_house) => dispatch(getPublishingHouses(publishing_house))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);

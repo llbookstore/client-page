@@ -6,6 +6,7 @@ import CategoryDetail from './components/CategoryDetail';
 import Cart from './components/Cart';
 import Payment from './components/Payment/index';
 import Author from './components/Author';
+import PublishingHouse from './components/PublishingHouse';
 import UnFindPage from './components/UnFindPage';
 const router = [
     {
@@ -47,6 +48,11 @@ const router = [
         path: '/author/:id',
         exact: true, 
         component: Author
+    },
+    {
+        path: '/publishing_house/:id',
+        exact: true, 
+        component: PublishingHouse
     },
     {
         path: '/',

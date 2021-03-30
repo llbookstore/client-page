@@ -7,7 +7,7 @@ import './Category.scss';
 import Carousel from './Carousel'
 const { Title } = Typography;
 const Category = (props) => {
-    const { category, author, products } = props;
+    const { category, author, products, publishing_house } = props;
     const [listCateId, setListCateId] = useState(null);
     const history = useHistory();
     const onCateClick = (e) => {
@@ -22,9 +22,18 @@ const Category = (props) => {
                 listProductOfCateId.
                     find(i => i.author && i.author.active === 1 && i.author.author_id === item.author_id)
             )
+        const listPublishingHouse = publishing_house
+            .filter(item =>
+                listProductOfCateId.
+                    find(i => i.publishing && i.publishing.active === 1 && i.publishing.publishing_id === item.publishing_id)
+            )
         const onCateAuthorClick = (e) => {
             const { key } = e;
             history.push(`/author/${key}`);
+        }
+        const onCatePublishingClick = (e) => {
+            const { key } = e;
+            history.push(`/publishing_house/${key}`);
         }
         return (
             <Card
@@ -41,7 +50,7 @@ const Category = (props) => {
                             {
                                 listCate
                                     .map(subItem =>
-                                        <Menu.Item onClick={onCateClick} key={`${subItem.category_id}`} >{subItem.name}</Menu.Item>
+                                        <Menu.Item onClick={onCateClick} key={`${subItem.category_id}`} style={{ height: 30 }}>{subItem.name}</Menu.Item>
                                     )
                             }
                         </Menu>
@@ -52,7 +61,7 @@ const Category = (props) => {
                             {
                                 listAuthor
                                     .map(subItem =>
-                                        <Menu.Item onClick={onCateAuthorClick} key={`${subItem.author_id}`} >{subItem.name}</Menu.Item>
+                                        <Menu.Item onClick={onCateAuthorClick} key={`${subItem.author_id}`} style={{ height: 30 }} >{subItem.name}</Menu.Item>
                                     )
                             }
                         </Menu>
@@ -61,10 +70,9 @@ const Category = (props) => {
                         <Title level={3}>NHÀ PHÁT HÀNH</Title>
                         <Menu >
                             {
-                                category
-                                    .filter(subItem => subItem.group_id === listCateId)
+                                listPublishingHouse
                                     .map(subItem =>
-                                        <Menu.Item onClick={onCateClick} key={`${subItem.category_id}`} >{subItem.name}</Menu.Item>
+                                        <Menu.Item onClick={onCatePublishingClick} key={`${subItem.publishing_id}`} style={{ height: 30 }}>{subItem.name}</Menu.Item>
                                     )
                             }
                         </Menu>
@@ -75,7 +83,7 @@ const Category = (props) => {
     }
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Menu className="category-main" mode="vertical" title='Danh mục'>
+            <Menu className="category-main" mode="vertical" title='Danh mục' onMouseEnter={() => setListCateId(listCateId)}>
                 {
                     listCateId &&
                     <ShowListCateBook />
@@ -112,7 +120,7 @@ const Category = (props) => {
     )
 }
 const mapStateToProps = (state) => {
-    const { author } = state;
-    return { author };
+    const { author, publishing_house } = state;
+    return { author, publishing_house };
 }
 export default connect(mapStateToProps)(Category);

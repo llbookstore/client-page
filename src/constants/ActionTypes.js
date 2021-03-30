@@ -14,6 +14,8 @@ export const REMOVE_ALL_BOOK_CART = 'REMOVE_ALL_BOOK_CART'
 export const GET_CATEGORY = 'GET_CATEGORY'
 //author
 export const GET_AUTHORS = 'GET_AUTHORS'
+//publishing_house
+export const GET_PUBLISHING_HOUSES = 'GET_PUBLISHING_HOUSES'
 
 
 

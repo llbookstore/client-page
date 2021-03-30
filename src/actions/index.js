@@ -9,7 +9,8 @@ import {
     ADD_BOOK_CART,
     REMOVE_BOOK_CART,
     REMOVE_ALL_BOOK_CART,
-    GET_AUTHORS
+    GET_AUTHORS,
+    GET_PUBLISHING_HOUSES
 } from '../constants/ActionTypes'
 
 export const getAllProducts = (products) => {
@@ -80,5 +81,12 @@ export const getAuthors = (authors) => {
     return {
         type: GET_AUTHORS,
         data: authors
+    }
+}
+//author
+export const getPublishingHouses = (publishing_house) => {
+    return {
+        type: GET_PUBLISHING_HOUSES,
+        data: publishing_house
     }
 }
