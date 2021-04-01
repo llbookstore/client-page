@@ -60,7 +60,7 @@ const Signup = (props) => {
         if (userInfo.birth_date) userValue.birth_date = moment(`${userInfo.birth_date}`, 'DD/MM/YYYY');
         form.setFieldsValue(userValue);
 
-    }, [userInfo])
+    }, [userInfo,form])
 
     const onFinish = async (values) => {
         let { email, fullname, gender, username, password, phone, birth_date } = values;

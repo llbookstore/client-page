@@ -20,7 +20,7 @@ const BookDescription = (props) => {
     useEffect(() => {
         const newMax = Math.min(MAX_CART, quantity);
         setMaxAmount(newMax);
-    }, [])
+    }, [quantity])
     const onAmountChange = (value) => {
         if (value > maxAmount) {
             message.warn(`Bạn chỉ có thể có tối đa ${maxAmount} sản phẩm`);
@@ -76,7 +76,6 @@ const Cart = (props) => {
     const onHandleRemoveCart = async (book_id) => {
         try {
             const res = await axios.delete(`${API_HOST}/book/${book_id}/cart`);
-            console.log(res);
             if (res.data) {
                 if (res.data.status === 0)
                     message.warn('Xóa không thành công');
@@ -146,7 +145,7 @@ const Cart = (props) => {
                     <>
                         <Title level={1} style={{ textAlign: 'center', color: 'blueviolet' }}>Giỏ hàng</Title>
                         <Row wrap={true}>
-                            <Col style={{paddingTop: 20}}>
+                            <Col style={{ paddingTop: 20 }}>
                                 <Table
                                     className={'ant-table-thead'}
                                     columns={columns}
@@ -155,7 +154,7 @@ const Cart = (props) => {
                                     pagination={false}
                                 />
                             </Col>
-                            <Col style={{paddingTop: 20}}>
+                            <Col style={{ paddingTop: 20 }}>
                                 <Card title={<span style={{ color: 'tomato' }}>Tóm tắt đơn hàng</span>} bordered={false} style={{ width: 300, marginLeft: 10 }}>
                                     <table width='100%'>
                                         <tbody>
@@ -181,7 +180,7 @@ const Cart = (props) => {
                                     <Button type='primary' onClick={() => history.push('/payment')}>Thanh toán</Button>
                                 </Card>
                             </Col>
-                            </Row>
+                        </Row>
                     </>
             }
         </>

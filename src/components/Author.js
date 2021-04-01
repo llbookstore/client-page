@@ -10,8 +10,8 @@ function Author(props) {
     const params = useParams();
     const { author, products } = props;
     const { id } = params;
-    const findAuthor = author.find(item => item.author_id.toString() === id);
-    const findAuthorBook = products.filter(item => item.author.author_id == id);
+    const findAuthor = author.find(item => item.author_id === +id);
+    const findAuthorBook = products.filter(item => item.author.author_id === +id);
     return (
         <Card>
             {

@@ -18,7 +18,7 @@ const Payment = (props) => {
         if (!user.account_name) {
             history.push('/');
         }
-    }, [user])
+    }, [user, history])
     const { account_name } = user;
     const [fullname, setFullname] = useState(user.full_name);
     const [phone, setPhone] = useState(user.phone);

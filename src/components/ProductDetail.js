@@ -20,22 +20,23 @@ const ProductDetail = (props) => {
     const { products, user, onAddBookFavourite, onRemoveBookFavourte, onAddBookCart } = props;
     const { id } = useParams();
     //product
-    const productData = products.find(item => item.book_id == id);
+    const productData = products.find(item => item.book_id === +id);
     //user
     const { favourites = [], carts = [] } = user;
-    const isLikeBook = favourites.find(item => item.book_id == id);
+    const isLikeBook = favourites.find(item => item.book_id === +id);
     //state
     const [amount, setAmount] = useState(1);
     const [maxAmount, setMaxAmount] = useState(10);
     useEffect(() => {
         if (user.carts) {
             const bookCart = user.carts.find(item => item.book_id === +id);
-            let newMax = bookCart ? MAX_CART - bookCart.quantity : MAX_CART;
-            newMax = Math.min(newMax, productData.quantity);
+            let newMax = bookCart ? (MAX_CART - bookCart.quantity) : MAX_CART;
+            if(productData)
+                newMax = Math.min(newMax, productData.quantity);
             // newMax = newMax > productData.quantity ? productData.quantity : newMax;
             setMaxAmount(newMax);
         }
-    }, [user.carts])
+    }, [user.carts, id, productData])
     const BookSpecific = () => {
         return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} >
             <Col className="gutter-row" span={12} >
@@ -125,7 +126,7 @@ const ProductDetail = (props) => {
                     }
                 }
                 else {
-                    const res = await axios.post(`${API_HOST}/book/${id}/cart`, { quantity: amount });
+                    await axios.post(`${API_HOST}/book/${id}/cart`, { quantity: amount });
                     onAddBookCart(+id, amount);
                     message.success('Đã thêm sản phẩm này vào giỏ hàng của bạn');
                 }

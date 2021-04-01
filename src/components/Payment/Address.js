@@ -50,7 +50,7 @@ const Address = (props) => {
     const [form] = Form.useForm();
     useEffect(() => {
         form.setFieldsValue(user);
-    }, [user])
+    }, [user, form])
     const onFinish = async (values) => {
         const { fullname, address, phone, note } = values;
         onFullnameChange(fullname);

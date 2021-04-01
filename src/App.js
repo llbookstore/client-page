@@ -22,7 +22,7 @@ function App(props) {
       onGetAuthors();
       onGetCategories();
       onGetPublishingHouses();
-    }, [])
+    }, [onGetBooks, onGetAuthors, onGetCategories, onGetPublishingHouses])
 
     return (
       <Router>

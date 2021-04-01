@@ -19,13 +19,13 @@ const Category = (props) => {
         const listProductOfCateId = products.filter(item => item.category_details.find(i => i.category_id === listCateId));
         const listAuthor = author
             .filter(item =>
-                listProductOfCateId.
-                    find(i => i.author && i.author.active === 1 && i.author.author_id === item.author_id)
+                listProductOfCateId
+                    .find(i => i.author && i.author.active === 1 && i.author.author_id === item.author_id)
             )
         const listPublishingHouse = publishing_house
             .filter(item =>
-                listProductOfCateId.
-                    find(i => i.publishing && i.publishing.active === 1 && i.publishing.publishing_id === item.publishing_id)
+                listProductOfCateId
+                    .find(i => i.publishing && i.publishing.active === 1 && i.publishing.publishing_id === item.publishing_id)
             )
         const onCateAuthorClick = (e) => {
             const { key } = e;

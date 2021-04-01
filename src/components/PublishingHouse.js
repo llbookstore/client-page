@@ -1,8 +1,8 @@
 import React from 'react'
-import { Card, Row, Col, Image, Typography } from 'antd'
+import { Card, Row, Col, Typography } from 'antd'
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { API_HOST } from '../constants/config'
+import { getImageURL } from '../utils/callApi'
 import ProductList from './ProductList'
 import UnFindPage from './UnFindPage'
 
@@ -29,7 +29,7 @@ const PublishingHouse = (props) => {
                                     {
                                         findPublishingHouse.image &&
                                         <Col span={6}>
-                                            <img alt={findPublishingHouse.name} src={`${API_HOST}/images/${findPublishingHouse.image}`} alt={findPublishingHouse.name} />
+                                            <img alt={findPublishingHouse.name} src={getImageURL(findPublishingHouse.image)} />
                                         </Col>
                                     }
                                     <Col span={18} style={{ fontSize: '18px' }}>
