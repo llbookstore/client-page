@@ -11,7 +11,7 @@ import {
 import axios from 'axios';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
-import * as commonFunc from '../ultils/common'
+import * as commonFunc from '../utils/common'
 
 const formItemLayout = {
     labelCol: {

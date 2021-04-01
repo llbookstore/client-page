@@ -10,7 +10,7 @@ import * as actions from '../actions/index';
 import axios from 'axios';
 import './ProductDetail.scss';
 import { API_HOST, MAX_CART } from '../constants/config';
-import * as commonFunc from '../ultils/common';
+import * as commonFunc from '../utils/common';
 import UnFindPage from './UnFindPage';
 const { Title } = Typography;
 const { Panel } = Collapse;

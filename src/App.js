@@ -9,7 +9,6 @@ import Header from './components/Header';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import routes from './routes';
 import { API_HOST } from './constants/config'
-import { getAllProducts } from './actions/index'
 import { getAuthors } from './actions/AuthorActions'
 import { getCategories } from './actions/CategoryActions'
 import { getPublishingHouses } from './actions/PublishingHouseActions'
