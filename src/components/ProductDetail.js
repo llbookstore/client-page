@@ -31,7 +31,7 @@ const ProductDetail = (props) => {
         if (user.carts) {
             const bookCart = user.carts.find(item => item.book_id === +id);
             let newMax = bookCart ? (MAX_CART - bookCart.quantity) : MAX_CART;
-            if(productData)
+            if (productData)
                 newMax = Math.min(newMax, productData.quantity);
             // newMax = newMax > productData.quantity ? productData.quantity : newMax;
             setMaxAmount(newMax);
@@ -68,7 +68,7 @@ const ProductDetail = (props) => {
                     </Col>
                     <Col className="gutter-row" span={12} >
                         {productData.book_translator && <p className='product-detail__content--bold'>{productData.book_translator}</p>}
-                        {productData.publishing && <p className='product-detail__content--bold'>{productData.publishing.name}</p>}
+                        {productData.publishing && <Link to={`/publishing_house/${productData.publishing_id}`}><p className='product-detail__content--link'>{productData.publishing.name}</p></Link>}
                         {productData.weight && <p className='product-detail__content--bold'><NumberFormat value={productData.weight} displayType={'text'} thousandSeparator={true} /> gam</p>}
                         {productData.format && <p className='product-detail__content--bold'>{productData.format}</p>}
                         {productData.published_date && <p className='product-detail__content--bold'>{commonFunc.timestampToDate(productData.published_date)}</p>}
@@ -176,10 +176,24 @@ const ProductDetail = (props) => {
                     </div>
                     <div className='product-detail__content'>
                         <Title level={2} title={productData.name}>{productData.name}</Title>
-                        {productData.author && <p>Tác giả: <Link to={`/author/${productData.author.author_id}`}><span className='product-detail__content--link'>{productData.author.name}</span></Link></p>}
+                        {productData.author && <p>Tác giả:
+                            <Link to={`/author/${productData.author.author_id}`}>
+                                <span className='product-detail__content--link'>
+                                    {productData.author.name}
+                                </span>
+                            </Link>
+                        </p>
+                        }
                         {productData.book_translator && <p>Người dịch: <span className='product-detail__content--bold'>{productData.book_translator}</span></p>}
                         {productData.publisher && <p>Nhà xuất bản: <span className='product-detail__content--bold'>{productData.publisher}</span></p>}
-                        {productData.publishing && <p>Nhà phát hành: <span className='product-detail__content--bold'>{productData.publishing.name}</span></p>}
+                        {productData.publishing && <p>Nhà phát hành:
+                            <Link to={`/publishing_house/${productData.publishing_id}`}>
+                                <span className='product-detail__content--link'>
+                                    {productData.publishing.name}
+                                </span>
+                            </Link>
+                        </p>
+                        }
                         {
                             productData.sale && productData.sale.active === 1 ?
                                 <>
@@ -212,7 +226,7 @@ const ProductDetail = (props) => {
                         >
                             Thêm vào giỏ hàng
                         </Button>
-                        {productData.quantity === 0 && <p style={{color: 'red', fontSize:'20px'}}>Sản phẩm này đã hết hàng</p>}
+                        {productData.quantity === 0 && <p style={{ color: 'red', fontSize: '20px' }}>Sản phẩm này đã hết hàng</p>}
                     </div>
                 </div>
                 <Collapse defaultActiveKey={['1']} >
