@@ -1,24 +1,14 @@
 import {
-    GET_ALL_PRODUCTS,
     GET_USER_INFO,
     LOG_OUT,
     UPDATE_ACCOUNT,
-    GET_CATEGORY,
     ADD_BOOK_FAVOURITE,
     REMOVE_BOOK_FAVOURITE,
     ADD_BOOK_CART,
     REMOVE_BOOK_CART,
     REMOVE_ALL_BOOK_CART,
-    GET_AUTHORS,
-    GET_PUBLISHING_HOUSES
 } from '../constants/ActionTypes'
 
-export const getAllProducts = (products) => {
-    return {
-        type: GET_ALL_PRODUCTS,
-        data: products
-    }
-}
 //user
 export const getUserInfo = (user) => {
     return {
@@ -69,24 +59,4 @@ export const removeAllBookCart = () => {
         type: REMOVE_ALL_BOOK_CART
     }
 }
-//category
-export const getCategories = (categories) => {
-    return {
-        type: GET_CATEGORY,
-        data: categories
-    }
-}
-//author
-export const getAuthors = (authors) => {
-    return {
-        type: GET_AUTHORS,
-        data: authors
-    }
-}
-//author
-export const getPublishingHouses = (publishing_house) => {
-    return {
-        type: GET_PUBLISHING_HOUSES,
-        data: publishing_house
-    }
-}
+

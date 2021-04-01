@@ -9,80 +9,49 @@ import Header from './components/Header';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import routes from './routes';
 import { API_HOST } from './constants/config'
-import { getAllProducts, getCategories, getAuthors, getPublishingHouses } from './actions/index'
+import { getAllProducts } from './actions/index'
+import { getAuthors } from './actions/AuthorActions'
+import { getCategories } from './actions/CategoryActions'
+import { getPublishingHouses } from './actions/PublishingHouseActions'
+import { getAllBooks } from './actions/BookActions'
 function App(props) {
-  const { user, onGetCategories, onGetProducts, onGetAuthors, onGetPublishingHouses } = props;
-  axios.defaults.baseURL = API_HOST;
-  axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
-  useEffect(() => {
-    getBooks();
-    getCategories();
-    getAllAuthors();
-    getAllPublishingHouses();
-  }, [])
+    const { user, onGetCategories, onGetBooks, onGetPublishingHouses, onGetAuthors } = props;
+    axios.defaults.baseURL = API_HOST;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
+    useEffect(() => {
+      onGetBooks();
+      onGetAuthors();
+      onGetCategories();
+      onGetPublishingHouses();
+    }, [])
 
-  async function getBooks() {
-    try {
-      const res = await axios.get('/books?row_per_page=10000000&active=1');
-      onGetProducts(res.data.data.rows);
-    } catch (err) {
-      console.log(err);
-    }
+    return (
+      <Router>
+        <div className="App">
+          <Header />
+          <section >
+            <Switch>
+              {
+                routes.map((route, index) =>
+                  <Route key={index} {...route} />
+                )
+              }
+            </Switch>
+          </section>
+        </div>
+      </Router>
+    );
   }
-
-  async function getCategories() {
-    try {
-      const res = await axios.get('/category?active=1');
-      onGetCategories(res.data.data);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function getAllAuthors() {
-    try {
-      const res = await axios.get('/author?row_per_page=1000000&active=1');
-      onGetAuthors(res.data.data.rows);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function getAllPublishingHouses() {
-    try {
-      const res = await axios.get('/publishing_house?active=1');
-      onGetPublishingHouses(res.data.data);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  return (
-    <Router>
-      <div className="App">
-        <Header />
-        <section >
-          <Switch>
-            {
-              routes.map((route, index) =>
-                <Route key={index} {...route} />
-              )
-            }
-          </Switch>
-        </section>
-      </div>
-    </Router>
-  );
-}
 const mapStateToProps = (state) => {
   const { user } = state;
   return { user };
 }
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    onGetProducts: (products) => dispatch(getAllProducts(products)),
-    onGetCategories: (categories) => dispatch(getCategories(categories)),
-    onGetAuthors: (authors) => dispatch(getAuthors(authors)),
-    onGetPublishingHouses: (publishing_house) => dispatch(getPublishingHouses(publishing_house))
+    onGetBooks: () => dispatch(getAllBooks()),
+    onGetCategories: () => dispatch(getCategories()),
+    onGetAuthors: () => dispatch(getAuthors()),
+    onGetPublishingHouses: () => dispatch(getPublishingHouses())
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);
