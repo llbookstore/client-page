@@ -4,9 +4,10 @@ import {
 } from '../constants/ActionTypes'
 
 export const getPublishingHouses = () => async (dispatch) => {
-    const res = await callApi('publishing_house', 'GET', { active: 1 });
-    dispatch({
-        type: GET_PUBLISHING_HOUSES,
-        data: res.data
-    })
+    const res = await callApi('publishing_house', 'GET', { active: 1, row_per_page: 1000000 });
+    if (res && res.status === 1)
+        dispatch({
+            type: GET_PUBLISHING_HOUSES,
+            data: res.data.rows
+        })
 }

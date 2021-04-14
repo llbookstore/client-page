@@ -162,7 +162,7 @@ const ProductDetail = (props) => {
     }
     const onAmountChange = (num) => {
         if (num > maxAmount)
-            message.warn(`Bạn chỉ có thể lấy ${MAX_CART} cuốn sách này!`);
+            message.warn(`Bạn chỉ có thể lấy ${maxAmount} cuốn sách này!`);
         setAmount(num);
     }
     return (

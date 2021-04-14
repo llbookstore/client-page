@@ -5,8 +5,9 @@ import {
 
 export const getAuthors = () => async (dispatch) => {
     const res = await callApi('author', 'GET', { active: 1, row_per_page: 1000000 });
-    dispatch({
-        type: GET_AUTHORS,
-        data: res.data.rows
-    })
+    if (res && res.status === 1)
+        dispatch({
+            type: GET_AUTHORS,
+            data: res.data.rows
+        })
 }
