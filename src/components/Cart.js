@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
-import { Table, Typography, InputNumber, message, Card, Button, Row, Col } from 'antd'
+import { Typography, InputNumber, message, Card, Button, Row, Col, List, Image } from 'antd'
 import { CloseCircleOutlined } from '@ant-design/icons'
 import NumberFormat from 'react-number-format'
-import axios from 'axios'
 import * as actions from '../actions/index'
 import './Cart.scss'
-import { API_HOST, MAX_CART } from '../constants/config'
+import { MAX_CART } from '../constants/config'
 import UnFindPage from './UnFindPage'
+import { callApi, getImageURL } from '../utils/callApi'
 const { Title } = Typography;
 
 const BookDescription = (props) => {
@@ -29,7 +29,7 @@ const BookDescription = (props) => {
     }
     const onHandleUpdateCart = async () => {
         try {
-            const res = axios.post(`${API_HOST}/book/${book_id}/cart`, { quantity: amount })
+            const res = await callApi(`/book/${book_id}/cart`, 'POST', { quantity: amount });
             if (res.data && res.data.status === 1) {
                 message.success('Cập nhật giỏ hàng thành công');
                 onAddBookCart(book_id, amount);
@@ -75,7 +75,7 @@ const Cart = (props) => {
     const { user, products, onRemoveBookCart, onAddBookCart } = props;
     const onHandleRemoveCart = async (book_id) => {
         try {
-            const res = await axios.delete(`${API_HOST}/book/${book_id}/cart`);
+            const res = await callApi(`book/${book_id}/cart`, 'DELETE');
             if (res.data) {
                 if (res.data.status === 0)
                     message.warn('Xóa không thành công');
@@ -91,31 +91,6 @@ const Cart = (props) => {
         }
 
     }
-    const columns = [
-        {
-            dataIndex: 'cover_image',
-            width: '10%',
-            responsive: ['sm'],
-            render: (image, record) => {
-                const bookLink = `/book/${record.book_id}`;
-                return <Link to={bookLink}>
-                    <img
-                        src={`${API_HOST}/images/${image}`}
-                        alt={record.name}
-                        width='100px'
-                    />
-                </Link>
-
-            }
-        },
-        {
-            align: 'left',
-            render: record => <BookDescription item={record} onAddBookCart={onAddBookCart} />
-        },
-        {
-            render: record => <CloseCircleOutlined title={'Loại bỏ sản phẩm này ra khỏi giỏ hàng'} className={'cart-remove'} onClick={() => onHandleRemoveCart(record.book_id)} />
-        },
-    ];
 
     if (!user.carts) {
         return <UnFindPage />
@@ -144,17 +119,27 @@ const Cart = (props) => {
                     :
                     <>
                         <Title level={1} style={{ textAlign: 'center', color: 'blueviolet' }}>Giỏ hàng</Title>
-                        <Row wrap={true}>
-                            <Col style={{ paddingTop: 20 }}>
-                                <Table
-                                    className={'ant-table-thead'}
-                                    columns={columns}
+                        <Row wrap={true} gutter={24}>
+                            <Col style={{ paddingTop: 20 }} span={16}>
+                                <List
+                                    size="large"
+                                    bordered
+                                    style={{ width: '100%' }}
                                     dataSource={data}
-                                    title={() => <Title level={2}>Sản phẩm</Title>}
-                                    pagination={false}
+                                    renderItem={item =>
+                                        <List.Item style={{ backgroundColor: 'white' }}>
+                                            <List.Item.Meta
+                                                avatar={
+                                                    <Image src={getImageURL(item.cover_image)} width='100px' height='auto' alt={item.name} />
+                                                }
+                                                description={<BookDescription item={item} onAddBookCart={onAddBookCart} />}
+                                            />
+                                            <CloseCircleOutlined title={'Loại bỏ sản phẩm này ra khỏi giỏ hàng'} className={'cart-remove'} onClick={() => onHandleRemoveCart(item.book_id)} />
+                                        </List.Item>
+                                    }
                                 />
                             </Col>
-                            <Col style={{ paddingTop: 20 }}>
+                            <Col style={{ paddingTop: 20 }} >
                                 <Card title={<span style={{ color: 'tomato' }}>Tóm tắt đơn hàng</span>} bordered={false} style={{ width: 300, marginLeft: 10 }}>
                                     <table width='100%'>
                                         <tbody>
