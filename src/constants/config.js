@@ -6,6 +6,7 @@ import bank_24 from '../assets/img/bank_24.png'
 import visa from '../assets/img/icon_visa_master.jpg'
 export const API_HOST = 'http://localhost:3326'
 export const MAX_CART = 10
+export const RPP = 10
 export const paymentTypes = [
     {
         key: 0,
@@ -57,4 +58,28 @@ export const paymentTypes = [
             <img src={visa} alt='visa' />
         </>
     },
+]
+
+export const ORDER_STATUS = [
+    {
+        status: -1,
+        name: 'Đã hủy'
+    },
+    {
+        status: 0,
+        name: 'Đang chờ xử lý'
+    },
+    {
+        status: 1,
+        name: 'Đã xác nhận đơn hàng'
+    },
+    {
+        status: 2,
+        name: 'Đang chuyển hàng'
+    },
+    {
+        status: 3,
+        name: 'Giao hàng thành công'
+    },
+
 ]

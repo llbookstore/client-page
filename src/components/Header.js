@@ -36,6 +36,9 @@ const Header = (props) => {
             <Menu.Item onClick={() => { setIsModalVisible(true); setIsLogin(true) }}>
                 Chỉnh sửa thông tin
             </Menu.Item>
+            <Menu.Item onClick={() => history.push('/check-order')}>
+                Đơn hàng của tôi
+            </Menu.Item>
             <Menu.Item danger onClick={onLogoutClick}>Đăng xuất</Menu.Item>
         </Menu>
     );
