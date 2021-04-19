@@ -8,6 +8,7 @@ import Payment from './components/Payment/index';
 import Author from './components/Author';
 import PublishingHouse from './components/PublishingHouse';
 import CheckOrder from './components/CheckOrder';
+import OrderDetails from './components/OrderDetails'
 import UnFindPage from './components/UnFindPage';
 const router = [
     {
@@ -59,6 +60,11 @@ const router = [
         path: '/check-order',
         exact: true, 
         component: CheckOrder
+    },
+    {
+        path: '/check-order/:id',
+        exact: true, 
+        component: OrderDetails
     },
     {
         path: '/',
