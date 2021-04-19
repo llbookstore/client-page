@@ -115,7 +115,7 @@ const Category = (props) => {
                         )
                 }
             </Menu>
-            <Carousel />
+            <Carousel/>
         </div>
     )
 }

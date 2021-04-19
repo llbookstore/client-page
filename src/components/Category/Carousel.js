@@ -27,7 +27,7 @@ const SimpleSlider = (props) => {
     }
   ]
   return (
-    <Slider {...settings} style={{ width: '900px' }}>
+    <Slider {...settings} style={{ width: '754px' }}>
       {
         listSlide.map((item, index) => <div key={index}>
           <Link to={`${item.link}`}>
