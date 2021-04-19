@@ -29,7 +29,7 @@ function App(props) {
     if(user.token && !isAuth(user.token)){
       onLogout();
     }
-  }, [])
+  }, [user.token, onLogout])
   return (
     <Router>
       <div className="App">
