@@ -7,6 +7,19 @@
         font-size: 1.2em;
         line-height: 2.6em;
     }
-    
-    
+}
+
+.price-vnd{
+    font-size: 1.4em;
+    &::after{
+        content: 'đ'
+    }
+}
+.price-total{
+    font-size: 1.4em;
+    color: tomato;
+    font-weight: 500;
+    &::after{
+        content: 'đ'
+    }
 }
