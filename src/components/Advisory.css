@@ -1,0 +1,32 @@
+.BtnPopupSupport {
+    background-image: linear-gradient(0deg, #078ad8, #27b9ee);
+    color: #fff;
+    padding: 6px 20px;
+    border-radius: 99px;
+    cursor: pointer;
+    display: inline-block;
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    /* IE 9 */
+    -webkit-transform: translateX(-50%);
+    /* Safari */
+    transform: translateX(-50%);
+    z-index: 5;
+}
+
+.BtnPopupSupport:hover {
+    color: #d8d8d8;
+}
+
+.BtnPopupSupport {
+    bottom: 10px;
+    font-size: 14px;
+    left: 50%;
+    /* margin-left: -85px; */
+    -ms-transform:  translateX(-50%); /* IE 9 */
+    -webkit-transform:  translateX(-50%); /* Safari */
+    transform: translateX(-50%);
+    padding: 6px 15px;
+}
