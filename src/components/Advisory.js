@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 import {
     Modal,
     Form,
@@ -10,16 +11,29 @@ import { callApi } from '../utils/callApi'
 import './Advisory.css'
 
 const { TextArea } = Input;
-export default function Advisory() {
+function Advisory({ user }) {
     const [showAdvisory, setShowAdvisory] = useState(false);
     const [form] = Form.useForm();
-    const onFinish = async({ full_name, phone, note, address }) => {
+    useEffect(() => {
+        const userValue = {};
+        if (user.account_name) {
+            userValue.full_name = user.full_name;
+            userValue.phone = user.phone;
+            userValue.address = user.address;
+            form.setFieldsValue(userValue);
+        }
+        else {
+            form.resetFields();
+        }
+    }, [form, user])
+    const onFinish = async ({ full_name, phone, note, address }) => {
         const data = { username: full_name, phone, address, user_note: note };
         try {
             const res = await callApi(`/advisory`, 'POST', data);
-            if(res && res.status === 1){
+            if (res && res.status === 1) {
                 message.success('GỬI THÀNH CÔNG! Chúng tôi sẽ liên hệ với bạn sớm nhất, cám ơn bạn!', 1.5)
                 setShowAdvisory(false);
+                form.resetFields();
             }
             else {
                 message.warn('Có lỗi xảy ra');
@@ -101,36 +115,12 @@ export default function Advisory() {
                     </Button>
                     </div>
                 </Form>
-                {/* <div className='framePopup popupSupport'>
-                    <div className="wrapContent">
-                        <div className="content">
-                            <button className="bntClose" onClick={() => setShowAdvisory(false)}></button>
-                            <div className={statusSubmit ? "wrap dnone" : "wrap"}>
-
-                                <h3 className="textBlack">Đăng ký nhận tư vấn miễn phí!</h3>
-                                <form>
-                                    <div className="wrapInput">
-                                        <input type="text" value={''} placeholder="Họ và tên" onChange={(event, value) => this.handleChange(event, 'fullname')} />
-                                    </div>
-                                    <div className="wrapInput">
-                                        <input type="text" value={''} placeholder="Số điện thoại" onChange={(event, value) => this.handleChange(event, 'tel')} />
-                                    </div>
-                                    <div className="wrapInput">
-                                        <textarea name="" value={'ss'} placeholder="Nội dung cần tư vấn" onChange={(event, value) => this.handleChange(event, 'contentSupport')}></textarea>
-                                    </div>
-                                </form>
-                                <a className="frameButton bgGreen1" >Đăng ký</a>
-                            </div>
-                            <div className={statusSubmit ? "thongBao" : "thongBao dnone"}>
-                                <p className="txt textBlack clGreen1">GỬI THÀNH CÔNG!</p>
-                                <p>Chúng tôi sẽ liên hệ với bạn sớm nhất, cám ơn bạn!</p>
-                            </div>
-
-                        </div>
-                    </div>
-                </div> */}
             </Modal>
         </div >
     )
 }
 
+const mapStateToProps = ({ user }) => {
+    return { user };
+}
+export default connect(mapStateToProps)(Advisory);
