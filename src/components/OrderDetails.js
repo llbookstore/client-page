@@ -103,7 +103,7 @@ const OrderDetails = ({ user }) => {
                         <hr />
                         <Row gutter={[16, 24]} orientation="left" >
                             <Col flex='3' >
-                                <Card title='ĐỊA CHỈ NGƯỜI NHẬN' style={{ fontSize: '1.4em', minHeight: '250px' }}>
+                                <Card title='THÔNG TIN ĐẶT HÀNG' style={{ fontSize: '1.4em', minHeight: '250px' }}>
                                     <Title level={4}>{orderData.user_name}</Title>
                                     <strong>Địa chỉ:</strong> {orderData.address} <br />
                                     <strong>Điện thoại:</strong> {orderData.phone}

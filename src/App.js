@@ -32,7 +32,7 @@ function App(props) {
   }, [user.token, onLogout])
 
   useEffect(() => {
-    document.body.style.backgroundColor = "#19b3b1"
+    document.body.style.backgroundColor = "rgba(0,0,0,0.1)"
   },[])
   return (
     <Router>
