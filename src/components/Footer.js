@@ -32,7 +32,7 @@ export default function Footer() {
                             THÔNG TIN WEBSITE
                         </Title>
                         <p>
-                            <Link to='/'>Giới thiệu llbookStore</Link>
+                            <Link to='/'>Giới thiệu sách trí trệ</Link>
                         </p>
                         <p>
                             <Link to='/'>Chính sách bảo mật</Link>

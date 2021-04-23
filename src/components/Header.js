@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faCartArrowDown, faHeart } from '@fortawesome/free-solid-svg-icons'
 import './Header.scss'
-import logo from '../assets/img/logo.jpg'
+import logo from '../assets/img/logo.png'
 //antd
 import { Modal, Tabs, Menu, Dropdown, message, Badge } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
@@ -67,8 +67,8 @@ const Header = (props) => {
     return (
         <header className='header'>
             <div className='header__logo'>
-                <img className='header__logo-img' src={logo} alt='LLBook store' />
-                <Link to="/" className='header__logo-llbook '>LL BOOK</Link>
+                <img className='header__logo-img' src={logo} alt='Sách trí tuệ' />
+                <Link to="/" className='header__logo-llbook '>SÁCH TRÍ TUỆ</Link>
             </div>
             <form className='form-group' method='get' onSubmit={onFormSearchSubmit} >
                 <input

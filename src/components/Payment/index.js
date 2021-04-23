@@ -174,7 +174,7 @@ const Payment = (props) => {
                     :
                     (user.carts && user.carts.length > 0 &&
                         <>
-                            <Title level={1} style={{ textAlign: 'center' }}>LLBOOK</Title>
+                            <Title level={1} style={{ textAlign: 'center' }}>SÁCH TRÍ TUỆ</Title>
                             <Steps current={current}>
                                 {steps.map(item => (
                                     <Step key={item.title} title={item.title} />
