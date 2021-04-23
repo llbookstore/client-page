@@ -47,7 +47,7 @@ const Payment = (props) => {
     const PaymentConfirm = () => {
         return (
             <Row style={{ justifyContent: 'space-evenly' }}>
-                <Col className="gutter-row" >
+                <Col className="gutter-row">
                     <Title level={3} style={{ color: 'lightblue' }}>Sản phẩm</Title>
                     {
                         dataCart.map(item =>
@@ -61,7 +61,7 @@ const Payment = (props) => {
                                     />
                                 </Col>
                                 <Col>
-                                    <Title level={5}>{item.name}</Title>
+                                    <Title level={5} style={{maxWidth: '400px'}}>{item.name}</Title>
                                     <strong><span style={{ color: 'tomato' }}>{item.cartQuantity}</span> x
                                     {
                                             (item.sale && item.sale.percent && item.sale.active === 1) ?
