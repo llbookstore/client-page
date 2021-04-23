@@ -6,7 +6,7 @@
     cursor: pointer;
     display: inline-block;
     position: fixed;
-    bottom: 10px;
+    bottom: .1px;
     left: 50%;
     -ms-transform: translateX(-50%);
     /* IE 9 */
@@ -21,7 +21,7 @@
 }
 
 .BtnPopupSupport {
-    bottom: 10px;
+    bottom: .1px;
     font-size: 14px;
     left: 50%;
     /* margin-left: -85px; */
