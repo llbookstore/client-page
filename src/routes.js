@@ -8,7 +8,9 @@ import Payment from './components/Payment/index';
 import Author from './components/Author';
 import PublishingHouse from './components/PublishingHouse';
 import CheckOrder from './components/CheckOrder';
-import OrderDetails from './components/OrderDetails'
+import OrderDetails from './components/OrderDetails';
+import News from './components/News';
+import NewsDetails from './components/NewsDetails';
 import UnFindPage from './components/UnFindPage';
 const router = [
     {
@@ -65,6 +67,16 @@ const router = [
         path: '/check-order/:id',
         exact: true, 
         component: OrderDetails
+    },
+    {
+        path: '/news',
+        exact: true, 
+        component: News
+    },
+    {
+        path: '/news/:id',
+        exact: true, 
+        component: NewsDetails
     },
     {
         path: '/',

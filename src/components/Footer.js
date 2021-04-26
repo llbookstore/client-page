@@ -19,7 +19,7 @@ import atm from '../assets/img/atm.jpg'
 import cod from '../assets/img/cod.jpg'
 import payoo from '../assets/img/payoo.jpg'
 //
-import { PushpinFilled, PhoneFilled, MailFilled } from '@ant-design/icons'
+import { EnvironmentFilled, PhoneFilled, MailFilled } from '@ant-design/icons'
 const { Title } = Typography;
 export default function Footer() {
     return (
@@ -113,7 +113,7 @@ export default function Footer() {
                         LIÊN HỆ:
                     </Title>
                     <p>
-                        <PushpinFilled /> Phường Minh Khai, Quận Bắc Từ Niêm, Hà Nội.
+                    <EnvironmentFilled /> Phường Minh Khai, Quận Bắc Từ Niêm, Hà Nội.
                     </p>
 
                 </div>
