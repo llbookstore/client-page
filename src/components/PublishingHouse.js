@@ -1,5 +1,5 @@
-import React from 'react'
-import { Card, Row, Col, Typography } from 'antd'
+import React, { useState } from 'react'
+import { Card, Row, Col, Typography, Pagination } from 'antd'
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { getImageURL } from '../utils/callApi'
@@ -11,9 +11,13 @@ const PublishingHouse = (props) => {
     const { publishing_house, products } = props;
     const { id } = useParams();
     const findPublishingHouse = publishing_house.find(item => `${item.publishing_id}` === id);
-    const listProduct = products.filter(
-        item => `${item.publishing_id}` === id);
 
+    const listProduct = (page = 1, pageSize = 8) => {
+        return products
+            .filter(item => `${item.publishing_id}` === id)
+            .slice(pageSize * (page - 1), pageSize * page)
+    }
+    const [data, setData] = useState(listProduct(1, 8));
     return (
         <div style={{ marginTop: '138px' }}>
             {
@@ -39,8 +43,13 @@ const PublishingHouse = (props) => {
                             </Card>
                         }
                         <ProductList
-                            products={listProduct}
+                            products={data}
                             title={`Nhà phát hành: ${findPublishingHouse.name}`}
+                        />
+                        <Pagination
+                            total={listProduct(1, 10000).length}
+                            pageSize={8}
+                            onChange={page => setData(listProduct(page, 8))}
                         />
                     </Card>
             }
