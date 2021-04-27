@@ -168,7 +168,7 @@ const OrderDetails = ({ user, book }) => {
     return (
         <div>
             {
-                !orderData ? <UnFindPage /> :
+                (!orderData || !user.account_id )? <UnFindPage /> :
                     <>
                         <Row justify='space-between'>
                             <span className='order-detail__title'>
