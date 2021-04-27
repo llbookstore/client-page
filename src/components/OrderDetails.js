@@ -25,6 +25,7 @@ const OrderDetails = ({ user, book }) => {
     const [showReviewForm, setShowReviewForm] = useState(false);
     const [showViewReview, setShowViewReview] = useState(false);
     const [currentBook, setCurrentBook] = useState();
+    const [currentViewReview, setCurrentViewReview] = useState();
     const [widthScreen, setWidthScreen] = useState(window.innerWidth);
     useEffect(() => {
         const getUserOrder = async () => {
@@ -94,38 +95,37 @@ const OrderDetails = ({ user, book }) => {
                                     }
                                 </>
                             }
-
                             {
                                 (orderData.status === 3 && getBookReview(record.book_id))
                                 && <>
                                     <input
                                         onClick={() => {
+                                            setCurrentViewReview(book);
                                             setShowViewReview(true);
-                                            setCurrentBook(book)
                                         }}
                                         type='button'
                                         className='btn-view-review'
                                         value='Xem đánh giá'
                                     />
                                     {
-                                        currentBook &&
+                                        (currentViewReview && currentViewReview.book_id )&&
                                         <ViewReview
                                             title={
                                                 <>
                                                     <Space>
-                                                        <img src={getImageURL(currentBook.cover_image)} alt={currentBook.name} width='50px' height='50px' />
+                                                        <img src={getImageURL(currentViewReview.cover_image)} alt={currentViewReview.name} width='50px' height='50px' />
                                                         <div>
-                                                            {currentBook.name} <br />
+                                                            {currentViewReview.name} <br />
                                                             {
-                                                                getBookReview(currentBook.book_id)
-                                                                && getBookReview(currentBook.book_id).status === 0
+                                                                getBookReview(currentViewReview.book_id)
+                                                                && getBookReview(currentViewReview.book_id).status === 0
                                                                 && <span style={{color: 'rgba(0,0,0,0.4)'}}>Đánh giá của bạn đang chờ được duyệt</span>
                                                             }
                                                         </div>
                                                     </Space>
                                                 </>
                                             }
-                                            data={getBookReview(record.book_id)}
+                                            data={getBookReview(currentViewReview.book_id)}
                                             showViewReview={showViewReview}
                                             setShowViewReview={setShowViewReview}
                                         />
