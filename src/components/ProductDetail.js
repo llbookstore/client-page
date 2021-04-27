@@ -12,6 +12,7 @@ import './ProductDetail.scss';
 import { API_HOST, MAX_CART } from '../constants/config';
 import * as commonFunc from '../utils/common';
 import UnFindPage from './UnFindPage';
+import Review from './Review'
 const { Title } = Typography;
 const { Panel } = Collapse;
 
@@ -165,6 +166,7 @@ const ProductDetail = (props) => {
             message.warn(`Bạn chỉ có thể lấy ${maxAmount} cuốn sách này!`);
         setAmount(num);
     }
+
     return (
         !productData ?
             <UnFindPage />
@@ -235,6 +237,9 @@ const ProductDetail = (props) => {
                     </Panel>
                     <Panel header={<Title level={5}>Thông tin chi tiết</Title>} key="2">
                         <BookSpecific />
+                    </Panel>
+                    <Panel header={<Title level={5}>Đánh giá sách</Title>} key="3">
+                        <Review rating={productData.rating} reviews={productData.reviews}/>
                     </Panel>
                 </Collapse>
             </ Card>
