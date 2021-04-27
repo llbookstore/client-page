@@ -11,7 +11,7 @@ import {
 } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { timestampToDate } from '../utils/common'
-export default function Review({ rating, reviews }) {
+function Review({ rating, reviews }) {
     const reviewNumberRating = (rating) => {
         if (rating)
             return reviews.filter(item => item.rating === rating).length;
@@ -82,7 +82,7 @@ export default function Review({ rating, reviews }) {
                 </Row>
             </Card>
             {
-                rating && 
+                rating &&
                 <Card bordered={false}>
                     <List
                         itemLayout="horizontal"
@@ -90,7 +90,11 @@ export default function Review({ rating, reviews }) {
                         renderItem={item => (
                             <List.Item>
                                 <List.Item.Meta
-                                    avatar={<Avatar size="large" icon={<UserOutlined />} />}
+                                    avatar={<Avatar
+                                        size="large"
+                                        icon={<UserOutlined />}
+                                        // src={getImageURL(getUser(item.acc_id).avatar)}
+                                    />}
                                     title={item.full_name}
                                     description={<>
                                         <Rate value={item.rating} size='small' disabled style={{ fontSize: '1em' }} />
@@ -115,4 +119,4 @@ export default function Review({ rating, reviews }) {
     )
 }
 
-
+export default Review;

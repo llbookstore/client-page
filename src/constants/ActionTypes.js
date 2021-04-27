@@ -1,5 +1,6 @@
 //product
 export const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
+export const ADD_BOOK_REVIEW = 'ADD_BOOK_REVIEW'
 //user
 export const GET_USER_INFO = 'GET_USER_INFO'
 export const LOG_OUT = 'LOG_OUT'

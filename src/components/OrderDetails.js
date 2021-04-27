@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
-import { Row, Card, Col, Typography, Table } from 'antd'
+import { Row, Card, Col, Typography, Table, Space } from 'antd'
 import NumberFormat from 'react-number-format'
 import { callApi, getImageURL } from '../utils/callApi'
 import { timestampToDate } from '../utils/common'
 import './OrderDetails.scss'
 import { paymentTypes, ORDER_STATUS } from '../constants/config'
-import UnFindPage from './UnFindPage';
+import ReviewForm from './ReviewForm'
+import ViewReview from './ViewReview'
+import UnFindPage from './UnFindPage'
 const { Title } = Typography;
 const getOrderStatus = (status) => {
     const statusOrder = ORDER_STATUS.find(item => item.status === status);
@@ -17,9 +19,12 @@ const getPaymentType = (type) => {
     const findType = paymentTypes.find(item => item.key === type);
     return findType ? findType.title : '';
 }
-const OrderDetails = ({ user }) => {
+const OrderDetails = ({ user, book }) => {
     const { id } = useParams();
     const [orderData, setOrderData] = useState();
+    const [showReviewForm, setShowReviewForm] = useState(false);
+    const [showViewReview, setShowViewReview] = useState(false);
+    const [currentBook, setCurrentBook] = useState();
     const [widthScreen, setWidthScreen] = useState(window.innerWidth);
     useEffect(() => {
         const getUserOrder = async () => {
@@ -35,6 +40,11 @@ const OrderDetails = ({ user }) => {
             setWidthScreen(window.innerWidth);
         })
     }, [])
+    const getBookReview = (book_id) => {
+        return book
+            .find(item => item.book_id === book_id)
+            .reviews.find(item => item.acc_id === user.account_id);
+    }
     const columns = [
         {
             title: 'Sách đã đặt',
@@ -54,6 +64,74 @@ const OrderDetails = ({ user }) => {
                         }
                         <Col>
                             <Link to={`/book/${record.book_id}`} style={{ fontSize: '1.4em' }}>{book.name} </Link>
+                            <br />
+                            {
+                                (orderData.status === 3
+                                    && !getBookReview(record.book_id)
+                                ) &&
+                                <>
+                                    <input
+                                        onClick={() => {
+                                            setShowReviewForm(true);
+                                            setCurrentBook(book)
+                                        }}
+                                        type='button'
+                                        className='btn-review'
+                                        value='Đánh giá sách'
+                                    />
+                                    {
+                                        currentBook &&
+                                        <ReviewForm
+                                            title={<Space>
+                                                <img src={getImageURL(currentBook.cover_image)} alt={currentBook.name} width='50px' />
+                                                {currentBook.name}
+                                            </Space>
+                                            }
+                                            bookId={currentBook.book_id}
+                                            showReviewForm={showReviewForm}
+                                            setShowReviewForm={setShowReviewForm}
+                                        />
+                                    }
+                                </>
+                            }
+
+                            {
+                                (orderData.status === 3 && getBookReview(record.book_id))
+                                && <>
+                                    <input
+                                        onClick={() => {
+                                            setShowViewReview(true);
+                                            setCurrentBook(book)
+                                        }}
+                                        type='button'
+                                        className='btn-view-review'
+                                        value='Xem đánh giá'
+                                    />
+                                    {
+                                        currentBook &&
+                                        <ViewReview
+                                            title={
+                                                <>
+                                                    <Space>
+                                                        <img src={getImageURL(currentBook.cover_image)} alt={currentBook.name} width='50px' height='50px' />
+                                                        <div>
+                                                            {currentBook.name} <br />
+                                                            {
+                                                                getBookReview(currentBook.book_id)
+                                                                && getBookReview(currentBook.book_id).status === 0
+                                                                && <span style={{color: 'rgba(0,0,0,0.4)'}}>Đánh giá của bạn đang chờ được duyệt</span>
+                                                            }
+                                                        </div>
+                                                    </Space>
+                                                </>
+                                            }
+                                            data={getBookReview(record.book_id)}
+                                            showViewReview={showViewReview}
+                                            setShowViewReview={setShowViewReview}
+                                        />
+                                    }
+                                </>
+                            }
                         </Col>
                     </Row>
                 )
@@ -143,8 +221,8 @@ const OrderDetails = ({ user }) => {
     )
 }
 
-const mapStateToProps = ({ user }) => {
-    return { user }
+const mapStateToProps = ({ user, products }) => {
+    return { user, book: products }
 }
 
 export default connect(mapStateToProps)(OrderDetails);

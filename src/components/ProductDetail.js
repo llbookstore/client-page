@@ -239,7 +239,7 @@ const ProductDetail = (props) => {
                         <BookSpecific />
                     </Panel>
                     <Panel header={<Title level={5}>Đánh giá sách</Title>} key="3">
-                        <Review rating={productData.rating} reviews={productData.reviews}/>
+                        <Review rating={productData.rating} reviews={productData.reviews.filter(item =>item.status === 1)}/>
                     </Panel>
                 </Collapse>
             </ Card>
