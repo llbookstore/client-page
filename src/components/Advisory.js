@@ -12,8 +12,8 @@ import './Advisory.css'
 
 const { TextArea } = Input;
 function Advisory({ user }) {
-    const [showAdvisory, setShowAdvisory] = useState(false);
     const [form] = Form.useForm();
+    const [showAdvisory, setShowAdvisory] = useState(false);
     useEffect(() => {
         const userValue = {};
         if (user.account_name) {
@@ -50,6 +50,7 @@ function Advisory({ user }) {
                 visible={showAdvisory}
                 footer={null}
                 onCancel={() => setShowAdvisory(false)}
+                forceRender
                 title='Đăng ký nhận tư vấn miễn phí!'
             >
                 <Form
@@ -57,7 +58,6 @@ function Advisory({ user }) {
                     form={form}
                     onFinish={onFinish}
                     scrollToFirstError
-                // initialValues={{}}
                 >
                     <Form.Item
                         name='full_name'

@@ -62,11 +62,11 @@
                 color: yellowgreen;
             }
             appearance: none;
-            padding: 0em 1em;
+            padding: 0 0.1em;
             color: white;
             cursor: pointer;
             outline: none;
-            border-radius: 100px;
+            border-radius: 5em;
             // The magic
             border: 2px solid transparent;
             background: var(--color-blueviolet)

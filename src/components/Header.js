@@ -5,14 +5,16 @@ import { faSearch, faCartArrowDown, faHeart } from '@fortawesome/free-solid-svg-
 import './Header.scss'
 import logo from '../assets/img/logo.png'
 //antd
-import { Modal, Tabs, Menu, Dropdown, message, Badge } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Modal, Tabs, Menu, Dropdown, message, Badge, Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 //redux
 import { connect } from 'react-redux';
 import * as actions from '../actions'
 //component
 import Login from './Login'
 import Signup from './Signup'
+//func
+import { getImageURL } from '../utils/callApi'
 const Header = (props) => {
     const { userInfo, onLogout } = props;
     const [inputSearch, setInputSearch] = useState('');
@@ -98,7 +100,12 @@ const Header = (props) => {
                         (
                             <Dropdown overlay={menu}>
                                 <span className='header__user-username ant-dropdown-link'>
-                                    {userInfo.account_name} <DownOutlined />
+                                    <Avatar
+                                        icon={<UserOutlined />}
+                                        src={getImageURL(userInfo.avatar)}
+                                        size='small'
+                                    />
+                                    {userInfo.account_name} 
                                 </span>
                             </Dropdown>
                         )

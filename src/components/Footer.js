@@ -76,14 +76,14 @@ export default function Footer() {
                         <Space>
                             <img src={visa} alt='visa' />
                             <img src={master_card} alt='master_card' />
-                            <img src={jcb} alt='jcb' />
+                            <img src={atm} alt='atm' />
+                            {/* <img src={jcb} alt='jcb' /> */}
                         </Space>
                         <br />
                         <br />
                         <Space>
-                            <img src={atm} alt='atm' />
                             <img src={cod} alt='cod' />
-                            <img src={payoo} alt='payoo' />
+                            {/* <img src={payoo} alt='payoo' /> */}
                         </Space>
                     </Card>
                 </Col>

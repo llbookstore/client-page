@@ -93,7 +93,7 @@ function Review({ rating, reviews }) {
                                     avatar={<Avatar
                                         size="large"
                                         icon={<UserOutlined />}
-                                        // src={getImageURL(getUser(item.acc_id).avatar)}
+                                       // src={getImageURL(getUser(item.acc_id).avatar)}
                                     />}
                                     title={item.full_name}
                                     description={<>

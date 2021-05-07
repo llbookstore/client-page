@@ -31,6 +31,7 @@ const Login = (props) => {
             if (status === 0) message.error('Tên tài khoản hoặc mật khẩu không chính xác.');
             if (data.token) {
                 message.success('Đăng nhập thành công!');
+                handleVisibleModal(false);
                 onLogin(true);
                 //get user data
                 const { userId } = jwt.decode(data.token);
@@ -42,14 +43,12 @@ const Login = (props) => {
                 onGetUserData(userData);
                 //remove fields
                 form.resetFields();
-                handleVisibleModal(false);
             }
         } catch (err) {
             console.log(err);
             message.error('Không thể đăng nhập lúc này!');
         }
     };
-
     return (
         <Form
             {...layout}
