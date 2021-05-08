@@ -92,6 +92,7 @@ const Signup = (props) => {
                     message.success(`${title} tài khoản thành công!`);
                 }
             }
+            
         } catch (err) {
             console.log(err);
             message.error(`Có lỗi! Hiện tại không thể ${title}!`);

@@ -11,6 +11,7 @@ import {
 } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { timestampToDate } from '../utils/common'
+import { getImageURL } from  '../utils/callApi'
 function Review({ rating, reviews }) {
     const reviewNumberRating = (rating) => {
         if (rating)
@@ -93,7 +94,7 @@ function Review({ rating, reviews }) {
                                     avatar={<Avatar
                                         size="large"
                                         icon={<UserOutlined />}
-                                       // src={getImageURL(getUser(item.acc_id).avatar)}
+                                        src={getImageURL(item.acc.avatar)}
                                     />}
                                     title={item.full_name}
                                     description={<>
