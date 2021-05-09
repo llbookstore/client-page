@@ -16,12 +16,12 @@ const ProductItem = (props) => {
     const Description = (
         <>
             {
-                (sale && sale.percent && sale.active===1) ?
+                (sale && sale.percent && sale.active === 1) ?
                     <>
                         <div><Tag color="#f50">{sale.percent}%</Tag></div>
-                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                        <NumberFormat value={price} displayType={'text'} className='card-item__sale-price' thousandSeparator={true} />
-                        <NumberFormat value={price - price * (sale.percent / 100)} displayType={'text'} className='card-item__price' thousandSeparator={true} />
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <NumberFormat value={price} displayType={'text'} className='card-item__sale-price' thousandSeparator={true} />
+                            <NumberFormat value={price - price * (sale.percent / 100)} displayType={'text'} className='card-item__price' thousandSeparator={true} />
                         </div>
                     </>
                     :
@@ -41,11 +41,13 @@ const ProductItem = (props) => {
             bordered={false}
             hoverable={true}
             cover={
-                <img
-                    style={{ maxWidth: 160, margin: '0 auto' }}
-                    alt={name}
-                    src={`${API_HOST}/images/${cover_image}`}
-                />
+                <div style={{ width: 120, height: 160, margin: '0 auto' }}>
+                    <img
+                        style={{ maxWidth: 120, maxHeight: 160, margin: '0 auto' }}
+                        alt={name}
+                        src={`${API_HOST}/images/${cover_image}`}
+                    />
+                </div>
             }
         >
             <Meta
