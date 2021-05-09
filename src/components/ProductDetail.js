@@ -38,6 +38,10 @@ const ProductDetail = (props) => {
             setMaxAmount(newMax);
         }
     }, [user.carts, id, productData])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
+      
     const BookSpecific = () => {
         return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} >
             <Col className="gutter-row" span={12} >

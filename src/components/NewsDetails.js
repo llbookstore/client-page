@@ -25,6 +25,9 @@ export default function NewsDetails() {
         }
         getNewsByIdAPI();
     }, [id])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     return (
         <div>
             {

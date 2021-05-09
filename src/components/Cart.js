@@ -21,6 +21,9 @@ const BookDescription = (props) => {
         const newMax = Math.min(MAX_CART, quantity);
         setMaxAmount(newMax);
     }, [quantity])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     const onAmountChange = (value) => {
         if (value > maxAmount) {
             message.warn(`Bạn chỉ có thể có tối đa ${maxAmount} sản phẩm`);

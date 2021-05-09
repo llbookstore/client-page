@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import ProductList from './ProductList'
 const Favourtites = (props) => {
@@ -6,6 +6,9 @@ const Favourtites = (props) => {
     const { favourites = [] } = user;
     const listProduct = products
         .filter(item => favourites.find(i => i.book_id === item.book_id));
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <>
             {

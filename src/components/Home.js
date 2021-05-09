@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import Category from './Category/Category';
@@ -21,6 +21,9 @@ const Home = (props) => {
             <Link to={categoryLink} style={{ color: 'yellowgreen' }}>xem thêm</Link>
         )
     }
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     return (
         <>
             <Category category={category} products={products}/>

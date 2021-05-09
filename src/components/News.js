@@ -27,7 +27,9 @@ export default function News() {
         }
         getNewsAPI();
     }, [])
- 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     async function handleSearch(page = 1) {
         const res = await callApi('news', 'GET', {
             status: 1,

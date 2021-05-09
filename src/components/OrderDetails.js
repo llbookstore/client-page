@@ -41,6 +41,9 @@ const OrderDetails = ({ user, book }) => {
             setWidthScreen(window.innerWidth);
         })
     }, [])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     const getBookReview = (book_id) => {
         return book
             .find(item => item.book_id === book_id)

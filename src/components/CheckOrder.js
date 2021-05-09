@@ -90,6 +90,9 @@ const CheckOrder = ({ user }) => {
         }
         getUserOrder();
     }, [currentPage, user.account_id])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     return (
         <>
             {
