@@ -232,6 +232,11 @@ const ProductDetail = (props) => {
                         >
                             Thêm vào giỏ hàng
                         </Button>
+                        {productData.quantity > 0 && <>
+                            <br />
+                            <strong>Còn: </strong>
+                            {productData.quantity} cuốn sách
+                        </>}
                         {productData.quantity === 0 && <p style={{ color: 'red', fontSize: '20px' }}>Sản phẩm này đã hết hàng</p>}
                     </div>
                 </div>

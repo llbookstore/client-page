@@ -27,6 +27,8 @@ const Category = (props) => {
                 listProductOfCateId
                     .find(i => i.publishing && i.publishing.active === 1 && i.publishing.publishing_id === item.publishing_id)
             )
+        listAuthor.length = 11;
+        listPublishingHouse.length = 11;
         const onCateAuthorClick = (e) => {
             const { key } = e;
             history.push(`/author/${key}`);
