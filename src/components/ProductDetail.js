@@ -40,8 +40,8 @@ const ProductDetail = (props) => {
     }, [user.carts, id, productData])
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [])
-      
+    }, [])
+
     const BookSpecific = () => {
         return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} >
             <Col className="gutter-row" span={12} >
@@ -221,13 +221,19 @@ const ProductDetail = (props) => {
                                 <HeartFilled title='Thích' className='product-detail__heart' />
                                 <span className='product-detail__like'>THÍCH</span>
                             </div>
-                            <Button type="primary" className='product-detail__buy-now' onClick={onHandleBuyNowClick}>Mua ngay</Button>
+                            <Button
+                                type="primary"
+                                className='product-detail__buy-now'
+                                onClick={onHandleBuyNowClick}
+                                disabled={productData.quantity === 0}
+                            >Mua ngay</Button>
                         </div>
                         <strong>Số lượng:</strong> <InputNumber min={1} value={amount} max={maxAmount} onChange={onAmountChange} />
                         <Button
                             type="primary"
                             icon={<ShoppingCartOutlined />}
                             className='product-detail__add-cart'
+                            disabled={productData.quantity === 0}
                             onClick={onAddCartClick}
                         >
                             Thêm vào giỏ hàng
@@ -248,7 +254,7 @@ const ProductDetail = (props) => {
                         <BookSpecific />
                     </Panel>
                     <Panel header={<Title level={5}>Đánh giá sách</Title>} key="3">
-                        <Review rating={productData.rating} reviews={productData.reviews.filter(item =>item.status === 1)}/>
+                        <Review rating={productData.rating} reviews={productData.reviews.filter(item => item.status === 1)} />
                     </Panel>
                 </Collapse>
             </ Card>
