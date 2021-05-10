@@ -23,7 +23,7 @@ const BookDescription = (props) => {
     }, [quantity])
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [])
+    }, [])
     const onAmountChange = (value) => {
         if (value > maxAmount) {
             message.warn(`Bạn chỉ có thể có tối đa ${maxAmount} sản phẩm`);
@@ -118,7 +118,9 @@ const Cart = (props) => {
         <>
             {
                 data.length === 0 ?
-                    <Title level={1} style={{ textAlign: 'center', color: 'blueviolet' }}>Giỏ hàng trống</Title>
+                    <div style={{minHeight: '50vh'}}>
+                        <Title level={1} style={{ textAlign: 'center', color: 'blueviolet' }}>Giỏ hàng trống</Title>
+                    </div>
                     :
                     <>
                         <Title level={1} style={{ textAlign: 'center', color: 'blueviolet' }}>Giỏ hàng</Title>

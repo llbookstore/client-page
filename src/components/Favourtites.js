@@ -11,11 +11,17 @@ const Favourtites = (props) => {
     }, [])
     return (
         <>
+
             {
-                <ProductList
-                    products={listProduct}
-                    title={'Danh sách ưa thích của bạn.'}
-                />
+                listProduct.length > 0 ?
+                    <ProductList
+                        products={listProduct}
+                        title={'Danh sách ưa thích của bạn.'}
+                    />
+                    :
+                    <div style={{ minHeight: '50vh' }}>
+                        <h1 level={1} style={{ textAlign: 'center', color: 'blueviolet' }}>Danh sách ưa thích trống</h1>
+                    </div>
             }
         </>
     )

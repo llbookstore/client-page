@@ -193,6 +193,12 @@ const OrderDetails = ({ user, book }) => {
                             <Col flex='2' >
                                 <Card title='HÌNH THỨC THANH TOÁN' style={{ fontSize: '1.4em', minHeight: '250px' }}>
                                     {getPaymentType(orderData.payment_method)}
+                                    <br />
+                                    {orderData.is_paid === 1 && <>
+                                        <b>Đã thanh toán</b>
+                                        <br />
+                                        {timestampToDate(orderData.paid_time, 'DD/MM/YYYY LT')}
+                                    </>}
                                 </Card>
                             </Col>
                         </Row>
