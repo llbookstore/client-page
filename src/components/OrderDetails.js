@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
-import { Row, Card, Col, Typography, Table, Space } from 'antd'
+import { Row, Card, Col, Typography, Table, Space, Button, Popconfirm, message } from 'antd'
 import NumberFormat from 'react-number-format'
 import { callApi, getImageURL } from '../utils/callApi'
 import { timestampToDate } from '../utils/common'
@@ -21,6 +21,7 @@ const getPaymentType = (type) => {
 }
 const OrderDetails = ({ user, book }) => {
     const { id } = useParams();
+    const [updateCount, setUpdateCount] = useState(0);
     const [orderData, setOrderData] = useState();
     const [showReviewForm, setShowReviewForm] = useState(false);
     const [showViewReview, setShowViewReview] = useState(false);
@@ -35,7 +36,7 @@ const OrderDetails = ({ user, book }) => {
             }
         }
         getUserOrder();
-    }, [id, user.account_id])
+    }, [id, user.account_id, updateCount])
     useEffect(() => {
         window.addEventListener('resize', () => {
             setWidthScreen(window.innerWidth);
@@ -43,11 +44,21 @@ const OrderDetails = ({ user, book }) => {
     }, [])
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [])
+    }, [])
     const getBookReview = (book_id) => {
         return book
             .find(item => item.book_id === book_id)
             .reviews.find(item => item.acc_id === user.account_id);
+    }
+    const handleCancelOrder = async () => {
+        try {
+            await callApi(`bill/${id}/cancel`,'DELETE',{});
+            setUpdateCount(pre => pre + 1);
+            message.success('Đã hủy đơn hàng thành công!');
+        } catch (err) {
+            console.log(err);
+            message.error('Có lỗi xảy ra trong quá trình thực hiện. Bạn vui lòng thử lại sau!');
+        }
     }
     const columns = [
         {
@@ -111,7 +122,7 @@ const OrderDetails = ({ user, book }) => {
                                         value='Xem đánh giá'
                                     />
                                     {
-                                        (currentViewReview && currentViewReview.book_id )&&
+                                        (currentViewReview && currentViewReview.book_id) &&
                                         <ViewReview
                                             title={
                                                 <>
@@ -122,7 +133,7 @@ const OrderDetails = ({ user, book }) => {
                                                             {
                                                                 getBookReview(currentViewReview.book_id)
                                                                 && getBookReview(currentViewReview.book_id).status === 0
-                                                                && <span style={{color: 'rgba(0,0,0,0.4)'}}>Đánh giá của bạn đang chờ được duyệt</span>
+                                                                && <span style={{ color: 'rgba(0,0,0,0.4)' }}>Đánh giá của bạn đang chờ được duyệt</span>
                                                             }
                                                         </div>
                                                     </Space>
@@ -171,7 +182,7 @@ const OrderDetails = ({ user, book }) => {
     return (
         <div>
             {
-                (!orderData || !user.account_id )? <UnFindPage /> :
+                (!orderData || !user.account_id) ? <UnFindPage /> :
                     <>
                         <Row justify='space-between'>
                             <span className='order-detail__title'>
@@ -187,7 +198,12 @@ const OrderDetails = ({ user, book }) => {
                                 <Card title='THÔNG TIN ĐẶT HÀNG' style={{ fontSize: '1.4em', minHeight: '250px' }}>
                                     <Title level={4}>{orderData.user_name}</Title>
                                     <strong>Địa chỉ:</strong> {orderData.address} <br />
-                                    <strong>Điện thoại:</strong> {orderData.phone}
+                                    <strong>Điện thoại:</strong> {orderData.phone}<br />
+                                    {orderData.status === 0 &&
+                                        <Popconfirm title='Bạn thực sự có muốn hủy đơn hàng này' onConfirm={handleCancelOrder}>
+                                            <Button type='primary' style={{ backgroundColor: 'tomato', borderColor: 'tomato' }}>Huỷ đặt hàng</Button>
+                                        </Popconfirm>
+                                    }
                                 </Card>
                             </Col>
                             <Col flex='2' >
