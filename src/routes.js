@@ -12,6 +12,11 @@ import OrderDetails from './components/OrderDetails';
 import News from './components/News';
 import NewsDetails from './components/NewsDetails';
 import UnFindPage from './components/UnFindPage';
+import About from './components/Footer/About';
+import SecurityProvision from './components/Footer/SecurityProvision';
+import UsedProvision from './components/Footer/UsedProvision';
+import TransportMethod from './components/Footer/TransportMethod';
+import ShoppingGuide from './components/Footer/ShoppingGuide';
 const router = [
     {
         path: '/',
@@ -77,6 +82,26 @@ const router = [
         path: '/news/:id',
         exact: true, 
         component: NewsDetails
+    },
+    {
+        path: '/about',
+        component: About
+    },
+    {
+        path: '/security-provision',
+        component: SecurityProvision
+    },
+    {
+        path: '/used-provision',
+        component: UsedProvision
+    },
+    {
+        path: '/transport-method',
+        component: TransportMethod
+    },
+    {
+        path: '/shopping-guide',
+        component: ShoppingGuide
     },
     {
         path: '/',

@@ -1,23 +1,23 @@
 import React from 'react'
-import Advisory from './Advisory'
+import Advisory from '../Advisory'
 import { Link } from 'react-router-dom'
 import {
     Row, Col, Typography, Card, Space
 } from 'antd'
 //
-import amazon from '../assets/img/amazon.jpg'
-import lazada from '../assets/img/lazada.jpg'
-import shopee from '../assets/img/shopee.jpg'
+import amazon from '../../assets/img/amazon.jpg'
+import lazada from '../../assets/img/lazada.jpg'
+import shopee from '../../assets/img/shopee.jpg'
 //
-import dhl from '../assets/img/dhl.jpg'
-import vnPost from '../assets/img/vn-post.jpg'
+import dhl from '../../assets/img/dhl.jpg'
+import vnPost from '../../assets/img/vn-post.jpg'
 //
-import visa from '../assets/img/visa.jpg'
-import master_card from '../assets/img/master_card.jpg'
-import jcb from '../assets/img/jcb.jpg'
-import atm from '../assets/img/atm.jpg'
-import cod from '../assets/img/cod.jpg'
-import payoo from '../assets/img/payoo.jpg'
+import visa from '../../assets/img/visa.jpg'
+import master_card from '../../assets/img/master_card.jpg'
+import jcb from '../../assets/img/jcb.jpg'
+import atm from '../../assets/img/atm.jpg'
+import cod from '../../assets/img/cod.jpg'
+import payoo from '../../assets/img/payoo.jpg'
 //
 import { EnvironmentFilled, PhoneFilled, MailFilled } from '@ant-design/icons'
 const { Title } = Typography;
@@ -32,13 +32,13 @@ export default function Footer() {
                             THÔNG TIN WEBSITE
                         </Title>
                         <p>
-                            <Link to='/'>Giới thiệu sách trí trệ</Link>
+                            <Link to='/about'>Giới thiệu sách trí trệ</Link>
                         </p>
                         <p>
-                            <Link to='/'>Chính sách bảo mật</Link>
+                            <Link to='/security-provision'>Chính sách bảo mật</Link>
                         </p>
                         <p>
-                            <Link to='/'>Điều khoản sử dụng</Link>
+                            <Link to='/used-provision'>Điều khoản sử dụng</Link>
                         </p>
                     </Card>
                 </Col>
@@ -48,13 +48,13 @@ export default function Footer() {
                             TRỢ GIÚP
                         </Title>
                         <p>
-                            <Link to='/'>Hướng dẫn mua hàng</Link>
+                            <Link to='/shopping-guide'>Hướng dẫn mua hàng</Link>
                         </p>
                         <p>
                             <Link to='/'>Phương thức thanh toán</Link>
                         </p>
                         <p>
-                            <Link to='/'>Phương thức vận chuyển</Link>
+                            <Link to='/transport-method'>Phương thức vận chuyển</Link>
                         </p>
                     </Card>
                 </Col>
