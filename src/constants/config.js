@@ -4,7 +4,7 @@ import bank_1 from '../assets/img/bank_1.png'
 import bank_19 from '../assets/img/bank_19.png'
 import bank_24 from '../assets/img/bank_24.png'
 import visa from '../assets/img/icon_visa_master.jpg'
-export const API_HOST = 'http://localhost:3326'
+export const API_HOST = 'https://llbook-api.herokuapp.com'
 export const MAX_CART = 10
 export const RPP = 10
 export const paymentTypes = [
